@@ -1,5 +1,7 @@
 package ru.yoursweet667.uno.service.model;
 
+import java.util.List;
+
 public class Player {
     /**
      * Id of player
@@ -9,11 +11,15 @@ public class Player {
      * Name of player
      */
     private final String name;
+    /**
+     * Player cards
+     */
+    private final List<Card> cards;
 
-
-    public Player(String playerId, String name) {
+    public Player(String playerId, String name, List<Card> cards) {
         this.playerId = playerId;
         this.name = name;
+        this.cards = cards;
     }
 
     public String getPlayerId() {
@@ -22,5 +28,9 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public List<Card> getCards() {
+        return cards;
     }
 }

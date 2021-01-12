@@ -1,4 +1,6 @@
-package ru.yoursweet667.uno.service.model;
+package ru.yoursweet667.uno.service.model.event;
+
+import ru.yoursweet667.uno.service.model.EventType;
 
 public abstract class Event {
     /**
@@ -8,7 +10,7 @@ public abstract class Event {
     /**
      * Type of event
      */
-    private final ru.yoursweet667.uno.service.model.EventType type;
+    private final EventType type;
 
     public Event(Integer eventId, ru.yoursweet667.uno.service.model.EventType type) {
         this.eventId = eventId;

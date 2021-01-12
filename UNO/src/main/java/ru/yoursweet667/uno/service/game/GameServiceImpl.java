@@ -3,6 +3,7 @@ package ru.yoursweet667.uno.service.game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
+import ru.yoursweet667.uno.service.model.Card;
 import ru.yoursweet667.uno.service.model.Player;
 import ru.yoursweet667.uno.service.model.Game;
 import java.util.*;
@@ -17,7 +18,7 @@ public class GameServiceImpl implements GameService {
     public Game createGame() {
         String gameId = UUID.randomUUID().toString();
         Map<String, Player> players = new HashMap<>();
-        Game game = new Game(gameId, players);
+        Game game = new Game(gameId, players, gameState, nextPlayer, deck, cardsInTheGame, events);
         storage.createGame(game);
         //todo: Drop the error if game exist
         return game;
@@ -25,8 +26,13 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Player addPlayerToGame(String gameId, String playerName) {
+        return null;
+    }
+
+
+    public Player addPlayerToGame(String gameId, String playerName, List<Card> cards) {
         String playerId = UUID.randomUUID().toString();
-        Player player = new Player(playerId, playerName);
+        Player player = new Player(playerId, playerName, cards);
         storage.getGame(gameId).getPlayers().put(gameId, player);
         //todo: Drop the error if game doesn't exist
         return player;

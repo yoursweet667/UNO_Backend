@@ -1,8 +1,9 @@
-package ru.yoursweet667.uno.service.model;
+package ru.yoursweet667.uno.service.model.event;
 
-import ru.yoursweet667.uno.web.model.Card;
+import ru.yoursweet667.uno.service.model.Card;
+import ru.yoursweet667.uno.service.model.EventType;
 
-public class PlayerPlayedACardEvent extends Event {
+public class PlayCardEvent extends Event {
 
     /**
      * Source player id
@@ -17,8 +18,8 @@ public class PlayerPlayedACardEvent extends Event {
      */
     private final Card card;
 
-    public PlayerPlayedACardEvent(Integer eventId, String sourcePlayerId, String targetPlayerId, Card card) {
-        super(eventId, EventType.PLAYER_PLAYED_A_CARD);
+    public PlayCardEvent(Integer eventId, String sourcePlayerId, String targetPlayerId, Card card) {
+        super(eventId, EventType.PLAY_CARD);
         this.sourcePlayerId = sourcePlayerId;
         this.targetPlayerId = targetPlayerId;
         this.card = card;
