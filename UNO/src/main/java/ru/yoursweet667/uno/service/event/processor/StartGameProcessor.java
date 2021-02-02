@@ -5,21 +5,13 @@ import ru.yoursweet667.uno.service.model.GameState;
 import ru.yoursweet667.uno.service.model.event.StartGameEvent;
 import ru.yoursweet667.uno.service.model.Player;
 
-public class StartGameProcessor implements EventProcessor<StartGameEvent>{
+public class StartGameProcessor extends BaseEventProcessor<StartGameEvent>{
 
-    private final Game game;
-
-    public StartGameProcessor(Game game) {
-        this.game = game;
-    }
 
     @Override
-    public void process(StartGameEvent event) {
-
+    void doProcess(StartGameEvent event, Game game) {
         Player nextPlayer = game.getPlayers().values().iterator().next();
         game.setNextPlayer(nextPlayer);
         game.setGameState(GameState.START_TURN);
-        game.getEvents().add(event);
-
     }
 }

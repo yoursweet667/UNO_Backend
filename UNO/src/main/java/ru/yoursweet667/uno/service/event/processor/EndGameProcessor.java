@@ -2,17 +2,12 @@ package ru.yoursweet667.uno.service.event.processor;
 
 import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.GameState;
+import ru.yoursweet667.uno.service.model.event.EndGameEvent;
 
-public class EndGameProcessor {
+public class EndGameProcessor extends BaseEventProcessor<EndGameEvent> {
 
-    private final Game game;
-
-    public EndGameProcessor(Game game) {
-        this.game = game;
-    }
-
-
-    public void process() {
+    @Override
+    void doProcess(EndGameEvent event, Game game) {
         game.setGameState(GameState.GAME_ENDED);
     }
 }

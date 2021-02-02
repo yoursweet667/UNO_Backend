@@ -29,7 +29,7 @@ public class GameController {
     }
 
     @PostMapping("games/{gameId}/players")
-    public PlayerResponse addPlayerToGame(@RequestParam("playerName") String playerName ,
+    public PlayerResponse addPlayerToGame(@RequestParam("playerName") String playerName,
                                           @PathVariable("gameId") String gameId) {
         Player player = gameService.addPlayerToGame(gameId, playerName);
         PlayerResponse playerResponse = convertToPlayerResponse(player);

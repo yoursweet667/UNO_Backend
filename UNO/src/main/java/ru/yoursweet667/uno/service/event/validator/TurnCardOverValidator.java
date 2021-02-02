@@ -6,14 +6,8 @@ import ru.yoursweet667.uno.service.model.GameState;
 
 public class TurnCardOverValidator implements EventValidator<TurnCardOverEvent> {
 
-    private final Game game;
-
-    public TurnCardOverValidator(Game game) {
-        this.game = game;
-    }
-
     @Override
-    public void validate(TurnCardOverEvent event) {
+    public void validate(TurnCardOverEvent event, Game game) {
         GameState gameState = game.getGameState();
         GameState requiredGameState = GameState.INITIALISING;
         if (gameState != requiredGameState) {

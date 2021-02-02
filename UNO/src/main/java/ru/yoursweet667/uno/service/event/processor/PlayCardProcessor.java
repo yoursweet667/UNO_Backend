@@ -5,22 +5,14 @@ import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.Player;
 import ru.yoursweet667.uno.service.model.event.PlayCardEvent;
 
-public class PlayCardProcessor implements EventProcessor<PlayCardEvent>{
-
-    private final Game game;
-
-    public PlayCardProcessor(Game game) {
-        this.game = game;
-    }
+public class PlayCardProcessor extends BaseEventProcessor<PlayCardEvent>{
 
     @Override
-    public void process(PlayCardEvent event) {
-
+    void doProcess(PlayCardEvent event, Game game) {
         Card card = event.getCard();
         String sourcePlayerId = event.getSourcePlayerId();
         Player playerInTheGame = game.getPlayers().get(sourcePlayerId);
         playerInTheGame.getCards().remove(card);
         game.getCardsInTheGame().add(card);
-        game.getEvents().add(event);
     }
 }
