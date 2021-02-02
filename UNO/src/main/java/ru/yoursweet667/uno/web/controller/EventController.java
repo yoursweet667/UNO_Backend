@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yoursweet667.uno.service.event.EventService;
-import ru.yoursweet667.uno.web.model.Event;
+import ru.yoursweet667.uno.service.model.event.Event;
 
 
 
@@ -13,7 +13,6 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-
 
     @PostMapping("games/{gameId}/events")
     @ResponseStatus(HttpStatus.NO_CONTENT)

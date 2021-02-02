@@ -6,13 +6,13 @@ public abstract class Event {
     /**
      * Id of event
      */
-    private final Integer eventId;
+    private final int eventId;
     /**
      * Type of event
      */
     private final EventType type;
 
-    public Event(Integer eventId, ru.yoursweet667.uno.service.model.EventType type) {
+    public Event(int eventId, EventType type) {
         this.eventId = eventId;
         this.type = type;
     }

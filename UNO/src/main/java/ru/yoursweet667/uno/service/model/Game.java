@@ -38,11 +38,11 @@ public class Game {
 
 
 
-    public Game(String gameId, Map<String, Player> players, GameState gameState, Player nextPlayer, List<Card> deck, List<Card> cardsInTheGame, List<Event> events) {
+    public Game(String gameId, Map<String, Player> players, GameState gameState,
+                List<Card> deck, List<Card> cardsInTheGame, List<Event> events) {
         this.gameId = gameId;
         this.players = players;
         this.gameState = gameState;
-        this.nextPlayer = nextPlayer;
         this.deck = deck;
         this.cardsInTheGame = cardsInTheGame;
         this.events = events;

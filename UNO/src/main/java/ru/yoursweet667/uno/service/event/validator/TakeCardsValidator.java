@@ -8,32 +8,17 @@ import ru.yoursweet667.uno.service.model.event.TakeCardsEvent;
  * для иного GAME_ACTIVE
  */
 
-/*
-    0. Проверить состояние игры
-    1. Если состояние игры INITIALISING - узнать кол-во карт игрока и event
-    2. В противном случае - проверить чей сейчас ход
-    и проверить карты игрока на возможность хода
-     */
 
 public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
 
-    private final Game game;
-    private final Player player;
-
-    public TakeCardsValidator(Game game, Player player) {
-        this.game = game;
-        this.player = player;
-    }
-
     @Override
-    public void validate(TakeCardsEvent event) {
-
+    public void validate(TakeCardsEvent event, Game game) {
         if (game.getGameState() == GameState.INITIALISING) {
             validatePlayerHasNoCards(event.getPlayer());
             validateEventHasSevenCards(event);
-        } else if (game.getGameState() == GameState.GAME_ACTIVE) {
-            validatePlayerPlaysNext(event.getPlayer());
-            validatePlayerDoesNotHaveACardToPlay();
+        } else if (game.getGameState() == GameState.START_TURN) {
+            validatePlayerPlaysNext(event.getPlayer(), game);
+            validatePlayerDoesNotHaveACardToPlay(event.getPlayer(), game);
         } else throw new IllegalArgumentException("Incorrect Game State");
     }
 
@@ -53,7 +38,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validatePlayerPlaysNext(Player player) {
+    public void validatePlayerPlaysNext(Player player, Game game) {
         Player nextPlayer = game.getNextPlayer()
                 .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
         if (player.equals(nextPlayer)) {
@@ -61,7 +46,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validatePlayerDoesNotHaveACardToPlay() {
+    public void validatePlayerDoesNotHaveACardToPlay(Player player, Game game) {
 
         int playerCardsSize = player.getCards().size();
         Card lastCardInTheGame = game.getLastCardInTheGame()

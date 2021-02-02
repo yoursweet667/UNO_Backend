@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
 import ru.yoursweet667.uno.service.model.Card;
+import ru.yoursweet667.uno.service.model.GameState;
 import ru.yoursweet667.uno.service.model.Player;
 import ru.yoursweet667.uno.service.model.Game;
+import ru.yoursweet667.uno.service.model.event.Event;
+
 import java.util.*;
 
 @Service
@@ -18,7 +21,11 @@ public class GameServiceImpl implements GameService {
     public Game createGame() {
         String gameId = UUID.randomUUID().toString();
         Map<String, Player> players = new HashMap<>();
-        Game game = new Game(gameId, players, gameState, nextPlayer, deck, cardsInTheGame, events);
+        GameState gameState = GameState.GAME_CREATED;
+        List<Card> deck = new ArrayList<>();
+        List<Card> cardsInTheGame = new ArrayList<>();
+        List<Event> events = new LinkedList<>();
+        Game game = new Game(gameId, players, gameState, deck, cardsInTheGame, events);
         storage.createGame(game);
         //todo: Drop the error if game exist
         return game;
@@ -26,14 +33,9 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Player addPlayerToGame(String gameId, String playerName) {
-        return null;
-    }
-
-
-    public Player addPlayerToGame(String gameId, String playerName, List<Card> cards) {
-        String playerId = UUID.randomUUID().toString();
-        Player player = new Player(playerId, playerName, cards);
-        storage.getGame(gameId).getPlayers().put(gameId, player);
+        List<Card> playerCards = new ArrayList<>();
+        Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
+        storage.getGame(gameId).getPlayers().put(player.getPlayerId(), player);
         //todo: Drop the error if game doesn't exist
         return player;
     }
