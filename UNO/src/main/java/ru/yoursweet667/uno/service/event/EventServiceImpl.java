@@ -24,6 +24,7 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEvents(String gameId, String playerId, Integer fromEventId) {
         List<Event> events = gameService.getGame(gameId).getEvents();
         List<Event> neededEvents = events.subList(fromEventId, events.size());
+        //todo: Error if the game is not found by provided gameId
         return null;
     }
 }
