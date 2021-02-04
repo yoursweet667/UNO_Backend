@@ -3,10 +3,7 @@ package ru.yoursweet667.uno.service.game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
-import ru.yoursweet667.uno.service.model.Card;
-import ru.yoursweet667.uno.service.model.GameState;
-import ru.yoursweet667.uno.service.model.Player;
-import ru.yoursweet667.uno.service.model.Game;
+import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.Event;
 
 import java.util.*;
@@ -46,7 +43,34 @@ public class GameServiceImpl implements GameService {
         //todo: Drop the error if game or player doesn't exist
     }
 
-    public Game getGame(String gameId){
+    public Game getGame(String gameId) {
         return storage.getGame(gameId);
+    }
+
+    public List<Card> createCards(int numberOfCards, CardType cardType) {
+        List<Card> cards = new ArrayList<>();
+
+        if (cardType.equals(CardType.CHANGE_COLOUR)) {
+            for (int i = 1; i <= numberOfCards; i++) {
+                Card cardChangeColour = new Card(cardType, CardColour.BLACK);
+                cards.add(cardChangeColour);
+            }
+        } else if (cardType.equals(CardType.PLUS_4)) {
+            for (int i = 1; i <= numberOfCards; i++) {
+                Card cardPlus4 = new Card(cardType, CardColour.BLACK);
+                cards.add(cardPlus4);
+            }
+        }
+        for (int i = 1; i <= numberOfCards; i++) {
+            Card redCard = new Card(cardType, CardColour.RED);
+            Card blueCard = new Card(cardType, CardColour.BLUE);
+            Card greenCard = new Card(cardType, CardColour.GREEN);
+            Card yellowCard = new Card(cardType, CardColour.YELLOW);
+            cards.add(redCard);
+            cards.add(blueCard);
+            cards.add(greenCard);
+            cards.add(yellowCard);
+        }
+        return cards;
     }
 }

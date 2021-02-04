@@ -9,15 +9,10 @@ public class Card {
      * Colour of card
      */
     private final CardColour colour;
-    /**
-     * Number of card
-     */
-    private final Integer number;
 
-    public Card(CardType type, CardColour colour, Integer number) {
+    public Card(CardType type, CardColour colour) {
         this.type = type;
         this.colour = colour;
-        this.number = number;
     }
 
     public CardType getType() {
@@ -26,9 +21,5 @@ public class Card {
 
     public CardColour getColour() {
         return colour;
-    }
-
-    public Integer getNumber() {
-        return number;
     }
 }
