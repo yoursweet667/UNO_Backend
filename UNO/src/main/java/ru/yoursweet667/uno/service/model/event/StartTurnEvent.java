@@ -15,6 +15,14 @@ public class StartTurnEvent extends Event {
         this.player = player;
     }
 
+
+    @Override
+    public String toString() {
+        return "StartTurnEvent{" +
+                "player=" + player +
+                '}';
+    }
+
     public Player getPlayer() {
         return player;
     }

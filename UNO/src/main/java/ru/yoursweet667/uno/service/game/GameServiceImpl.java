@@ -19,7 +19,7 @@ public class GameServiceImpl implements GameService {
         String gameId = UUID.randomUUID().toString();
         Map<String, Player> players = new HashMap<>();
         GameState gameState = GameState.GAME_CREATED;
-        List<Card> deck = new ArrayList<>();
+        List<Card> deck = CardFactory.createDeck();
         List<Card> cardsInTheGame = new ArrayList<>();
         List<Event> events = new LinkedList<>();
         Game game = new Game(gameId, players, gameState, deck, cardsInTheGame, events);
@@ -47,30 +47,9 @@ public class GameServiceImpl implements GameService {
         return storage.getGame(gameId);
     }
 
-    public List<Card> createCards(int numberOfCards, CardType cardType) {
-        List<Card> cards = new ArrayList<>();
+    public void getCards(String gameId) {
 
-        if (cardType.equals(CardType.CHANGE_COLOUR)) {
-            for (int i = 1; i <= numberOfCards; i++) {
-                Card cardChangeColour = new Card(cardType, CardColour.BLACK);
-                cards.add(cardChangeColour);
-            }
-        } else if (cardType.equals(CardType.PLUS_4)) {
-            for (int i = 1; i <= numberOfCards; i++) {
-                Card cardPlus4 = new Card(cardType, CardColour.BLACK);
-                cards.add(cardPlus4);
-            }
-        }
-        for (int i = 1; i <= numberOfCards; i++) {
-            Card redCard = new Card(cardType, CardColour.RED);
-            Card blueCard = new Card(cardType, CardColour.BLUE);
-            Card greenCard = new Card(cardType, CardColour.GREEN);
-            Card yellowCard = new Card(cardType, CardColour.YELLOW);
-            cards.add(redCard);
-            cards.add(blueCard);
-            cards.add(greenCard);
-            cards.add(yellowCard);
-        }
-        return cards;
+        CardFactory cards = new CardFactory();
+        storage.getGame(gameId).getDeck().addAll(cards.createDeck());
     }
 }

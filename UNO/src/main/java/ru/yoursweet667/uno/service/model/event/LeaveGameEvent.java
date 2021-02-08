@@ -14,6 +14,13 @@ public class LeaveGameEvent extends Event {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        return "LeaveGameEvent{" +
+                "player=" + player +
+                '}';
+    }
+
     public Player getPlayer() {
         return player;
     }

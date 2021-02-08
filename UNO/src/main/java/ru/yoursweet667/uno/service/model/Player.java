@@ -22,6 +22,15 @@ public class Player {
         this.cards = cards;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerId='" + playerId + '\'' +
+                ", name='" + name + '\'' +
+                ", cards=" + cards +
+                '}';
+    }
+
     public String getPlayerId() {
         return playerId;
     }

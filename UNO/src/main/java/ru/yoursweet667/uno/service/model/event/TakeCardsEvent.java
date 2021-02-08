@@ -23,6 +23,14 @@ public class TakeCardsEvent extends Event {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        return "TakeCardsEvent{" +
+                "cards=" + cards +
+                ", player=" + player +
+                '}';
+    }
+
     public List<Card> getCards() {
         return cards;
     }

@@ -15,6 +15,13 @@ public class SkipTurnEvent extends Event {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        return "SkipTurnEvent{" +
+                "player=" + player +
+                '}';
+    }
+
     public Player getPlayer() {
         return player;
     }

@@ -15,6 +15,19 @@ public class Card {
         this.colour = colour;
     }
 
+    public Card(CardType type) {
+        this.type = type;
+        this.colour = null;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "type=" + type +
+                ", colour=" + colour +
+                '}';
+    }
+
     public CardType getType() {
         return type;
     }
@@ -22,4 +35,5 @@ public class Card {
     public CardColour getColour() {
         return colour;
     }
+
 }

@@ -15,6 +15,13 @@ public class EndTurnEvent extends Event {
         this.player = player;
     }
 
+    @Override
+    public String toString() {
+        return "EndTurnEvent{" +
+                "player=" + player +
+                '}';
+    }
+
     public Player getPlayer() {
         return player;
     }

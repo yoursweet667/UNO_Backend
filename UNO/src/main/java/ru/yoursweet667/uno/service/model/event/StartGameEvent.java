@@ -19,6 +19,13 @@ public class StartGameEvent extends Event {
         this.players = players;
     }
 
+    @Override
+    public String toString() {
+        return "StartGameEvent{" +
+                "players=" + players +
+                '}';
+    }
+
     public Map<String, Player> getPlayers() {
         return players;
     }

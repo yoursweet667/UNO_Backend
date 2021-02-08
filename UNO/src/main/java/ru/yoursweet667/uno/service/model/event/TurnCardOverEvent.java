@@ -15,6 +15,13 @@ public class TurnCardOverEvent extends Event {
         this.card = card;
     }
 
+    @Override
+    public String toString() {
+        return "TurnCardOverEvent{" +
+                "card=" + card +
+                '}';
+    }
+
     public Card getCard() {
         return card;
     }

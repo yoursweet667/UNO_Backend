@@ -17,6 +17,14 @@ public abstract class Event {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId=" + eventId +
+                ", type=" + type +
+                '}';
+    }
+
     public Integer getEventId() {
         return eventId;
     }

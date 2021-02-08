@@ -4,7 +4,7 @@ import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.TakeCardsEvent;
 
 /**
- * gameState испльзуется ситуативно,для одного случая необходиом состояние INITIALISING,
+ * gameState испльзуется ситуативно, для одного случая необходиом состояние INITIALISING,
  * для иного GAME_ACTIVE
  */
 
@@ -33,7 +33,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
     public void validateEventHasSevenCards(TakeCardsEvent event) {
         int requiredNumberOfCards = 7;
         int currentNumberOfCards = event.getCards().size();
-        if(requiredNumberOfCards != currentNumberOfCards) {
+        if (requiredNumberOfCards != currentNumberOfCards) {
             throw new IllegalArgumentException("Number Of Cards Isn't 7");
         }
     }
@@ -52,20 +52,19 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         Card lastCardInTheGame = game.getLastCardInTheGame()
                 .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
 
-        for (int i = 0; i < playerCardsSize ; i++) {
+        for (int i = 0; i < playerCardsSize; i++) {
             Card playerCard = player.getCards().get(i);
 
             CardColour lastCardInTheGameCardColour = lastCardInTheGame.getColour();
-            Integer lastCardInTheGameCardNumber = lastCardInTheGame.getNumber();
             CardColour playerCardColour = playerCard.getColour();
-            Integer playerCardNumber = playerCard.getNumber();
             CardType playerCardType = playerCard.getType();
 
-            if (!lastCardInTheGameCardColour.equals(playerCardColour) &
-                    !lastCardInTheGameCardNumber.equals(playerCardNumber) &
-                    !playerCardType.equals(CardType.CHANGE_COLOUR) &
-                    !playerCardType.equals(CardType.PLUS_4)) {
-                throw new IllegalArgumentException("Player Card Doesn't Equals Required Params");
+            for (CardType cardTypeInGame : CardType.values()) {
+
+                if (lastCardInTheGameCardColour != playerCardColour &
+                        playerCardType != cardTypeInGame) {
+                    throw new IllegalArgumentException("Player Card Doesn't Equals Required Params");
+                }
             }
         }
     }

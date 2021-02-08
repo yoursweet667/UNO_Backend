@@ -25,6 +25,15 @@ public class PlayCardEvent extends Event {
         this.card = card;
     }
 
+    @Override
+    public String toString() {
+        return "PlayCardEvent{" +
+                "sourcePlayerId='" + sourcePlayerId + '\'' +
+                ", targetPlayerId='" + targetPlayerId + '\'' +
+                ", card=" + card +
+                '}';
+    }
+
     public String getSourcePlayerId() {
         return sourcePlayerId;
     }

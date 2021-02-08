@@ -48,6 +48,20 @@ public class Game {
         this.events = events;
     }
 
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "gameId='" + gameId + '\'' +
+                ", players=" + players +
+                ", gameState=" + gameState +
+                ", nextPlayer=" + nextPlayer +
+                ", deck=" + deck +
+                ", cardsInTheGame=" + cardsInTheGame +
+                ", events=" + events +
+                '}';
+    }
+
     public String getGameId() {
         return gameId;
     }
