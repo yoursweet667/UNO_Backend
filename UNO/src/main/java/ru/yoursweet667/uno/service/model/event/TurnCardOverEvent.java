@@ -3,6 +3,8 @@ package ru.yoursweet667.uno.service.model.event;
 import ru.yoursweet667.uno.service.model.EventType;
 import ru.yoursweet667.uno.service.model.Card;
 
+import java.util.Objects;
+
 public class TurnCardOverEvent extends Event {
 
     /**
@@ -10,9 +12,24 @@ public class TurnCardOverEvent extends Event {
      */
     private final Card card;
 
-    public TurnCardOverEvent(Integer eventId, EventType type, Card card) {
+    public TurnCardOverEvent(int eventId, EventType type, Card card) {
         super(eventId, type);
         this.card = card;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TurnCardOverEvent that = (TurnCardOverEvent) o;
+        return Objects.equals(card, that.card);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), card);
     }
 
     @Override

@@ -14,34 +14,36 @@ public class CardFactory {
 
         List<Card> cards = new ArrayList<>();
         for (CardType cardType : CardType.values()) {
-            int numberOfCard;
+            int howMuchTimesCrateCard;
             if (cardType == CardType.ZERO) {
-                numberOfCard = 1;
+                howMuchTimesCrateCard = 1;
             } else if (cardType == CardType.CHANGE_COLOUR || cardType == CardType.PLUS_4) {
-                numberOfCard = 4;
+                howMuchTimesCrateCard = 4;
             } else {
-                numberOfCard = 2;
+                howMuchTimesCrateCard = 2;
             }
-            cards.addAll(createCards(numberOfCard, cardType));
+            cards.addAll(createCards(howMuchTimesCrateCard, cardType));
 
         }
         Collections.shuffle(cards);
         return cards;
     }
 
-    private static List<Card> createCards(int numberOfCards, CardType cardType) {
+    private static List<Card> createCards(int howMuchTimesCrateCard, CardType cardType) {
         List<Card> cards = new ArrayList<>();
 
-        for (int i = 1; i <= numberOfCards; i++) {
+        for (int i = 1; i <= howMuchTimesCrateCard; i++) {
             Card card = null;
             if (cardType == CardType.CHANGE_COLOUR || cardType == CardType.PLUS_4) {
                 card = new Card(cardType);
+                cards.add(card);
             } else {
                 for (CardColour cardColour : CardColour.values()) {
                     card = new Card(cardType, cardColour);
+                    cards.add(card);
                 }
             }
-            cards.add(card);
+
         }
         return cards;
     }

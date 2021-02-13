@@ -1,6 +1,7 @@
 package ru.yoursweet667.uno.service.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Player {
     /**
@@ -20,6 +21,21 @@ public class Player {
         this.playerId = playerId;
         this.name = name;
         this.cards = cards;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(playerId, player.playerId) &&
+                Objects.equals(name, player.name) &&
+                Objects.equals(cards, player.cards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerId, name, cards);
     }
 
     @Override

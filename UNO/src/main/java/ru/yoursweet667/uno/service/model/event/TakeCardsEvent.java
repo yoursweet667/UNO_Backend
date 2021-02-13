@@ -5,6 +5,7 @@ import ru.yoursweet667.uno.service.model.EventType;
 import ru.yoursweet667.uno.service.model.Player;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TakeCardsEvent extends Event {
 
@@ -17,10 +18,25 @@ public class TakeCardsEvent extends Event {
      */
     private final Player player;
 
-    public TakeCardsEvent(Integer eventId, EventType type, List<Card> cards, Player player) {
+    public TakeCardsEvent(int eventId, EventType type, List<Card> cards, Player player) {
         super(eventId, type);
         this.cards = cards;
         this.player = player;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TakeCardsEvent that = (TakeCardsEvent) o;
+        return Objects.equals(cards, that.cards) &&
+                Objects.equals(player, that.player);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), cards, player);
     }
 
     @Override

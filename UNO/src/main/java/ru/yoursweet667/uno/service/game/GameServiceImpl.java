@@ -46,10 +46,4 @@ public class GameServiceImpl implements GameService {
     public Game getGame(String gameId) {
         return storage.getGame(gameId);
     }
-
-    public void getCards(String gameId) {
-
-        CardFactory cards = new CardFactory();
-        storage.getGame(gameId).getDeck().addAll(cards.createDeck());
-    }
 }

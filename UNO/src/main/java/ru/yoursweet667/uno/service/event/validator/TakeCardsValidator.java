@@ -5,7 +5,7 @@ import ru.yoursweet667.uno.service.model.event.TakeCardsEvent;
 
 /**
  * gameState испльзуется ситуативно, для одного случая необходиом состояние INITIALISING,
- * для иного GAME_ACTIVE
+ * для иного START_TURN
  */
 
 
@@ -22,7 +22,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         } else throw new IllegalArgumentException("Incorrect Game State");
     }
 
-    public void validatePlayerHasNoCards(Player player) {
+    private void validatePlayerHasNoCards(Player player) {
         int requiredNumberOfCards = 0;
         int currentNumberOfCards = player.getCards().size();
         if (requiredNumberOfCards != currentNumberOfCards) {
@@ -30,7 +30,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validateEventHasSevenCards(TakeCardsEvent event) {
+    private void validateEventHasSevenCards(TakeCardsEvent event) {
         int requiredNumberOfCards = 7;
         int currentNumberOfCards = event.getCards().size();
         if (requiredNumberOfCards != currentNumberOfCards) {
@@ -38,7 +38,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validatePlayerPlaysNext(Player player, Game game) {
+    private void validatePlayerPlaysNext(Player player, Game game) {
         Player nextPlayer = game.getNextPlayer()
                 .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
         if (player.equals(nextPlayer)) {
@@ -46,7 +46,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validatePlayerDoesNotHaveACardToPlay(Player player, Game game) {
+    private void validatePlayerDoesNotHaveACardToPlay(Player player, Game game) {
 
         int playerCardsSize = player.getCards().size();
         Card lastCardInTheGame = game.getLastCardInTheGame()
@@ -59,12 +59,9 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
             CardColour playerCardColour = playerCard.getColour();
             CardType playerCardType = playerCard.getType();
 
-            for (CardType cardTypeInGame : CardType.values()) {
-
-                if (lastCardInTheGameCardColour != playerCardColour &
-                        playerCardType != cardTypeInGame) {
-                    throw new IllegalArgumentException("Player Card Doesn't Equals Required Params");
-                }
+            if (lastCardInTheGameCardColour != playerCardColour &
+                    playerCardType != lastCardInTheGame.getType()) {
+                throw new IllegalArgumentException("Player Card Doesn't Equals Required Params");
             }
         }
     }

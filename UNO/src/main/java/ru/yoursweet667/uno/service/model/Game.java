@@ -4,6 +4,7 @@ import ru.yoursweet667.uno.service.model.event.Event;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Game {
@@ -48,6 +49,24 @@ public class Game {
         this.events = events;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(gameId, game.gameId) &&
+                Objects.equals(players, game.players) &&
+                gameState == game.gameState &&
+                Objects.equals(nextPlayer, game.nextPlayer) &&
+                Objects.equals(deck, game.deck) &&
+                Objects.equals(cardsInTheGame, game.cardsInTheGame) &&
+                Objects.equals(events, game.events);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gameId, players, gameState, nextPlayer, deck, cardsInTheGame, events);
+    }
 
     @Override
     public String toString() {
