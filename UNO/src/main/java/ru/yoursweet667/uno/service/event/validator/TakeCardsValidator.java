@@ -40,7 +40,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
 
     private void validatePlayerPlaysNext(Player player, Game game) {
         Player nextPlayer = game.getNextPlayer()
-                .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
+                .orElseThrow(() -> new IllegalArgumentException("Player Isn't Found"));
         if (player.equals(nextPlayer)) {
             throw new IllegalArgumentException("It Isn't " + player + " Turn");
         }

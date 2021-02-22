@@ -2,6 +2,8 @@ package ru.yoursweet667.uno.service.event.validator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.TakeCardsEvent;
 
@@ -10,7 +12,7 @@ import java.util.List;
 
 public class TakeCardsValidatorTest {
 
-    TakeCardsValidator takeCardsValidator = new TakeCardsValidator();
+    private static final TakeCardsValidator takeCardsValidator = new TakeCardsValidator();
 
     @Test
     void validate_initialising_noException() {
@@ -33,7 +35,7 @@ public class TakeCardsValidatorTest {
     }
 
     @Test
-    void validate_playerCardsIsNotZero_exception() {
+    void validate_playerAlreadyHasCards_exception() {
 
         //Given
         Card playerCard = new Card(CardType.FIVE, CardColour.BLUE);
@@ -53,15 +55,18 @@ public class TakeCardsValidatorTest {
 
     }
 
-    @Test
-    void validate_eventHasMoreThanSevenCards_exception() {
+    @ParameterizedTest
+    @ValueSource(ints = { 6, 8 })
+
+    void validate_eventHasDifferentCardFormSeven_exception(int cards) {
+
 
         //Given
         Game game = new Game(null, null, GameState.INITIALISING,
                 null, null, null);
         Player player = new Player(null, null, List.of());
         List<Card> cardsInEvent = new ArrayList<>();
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= cards; i++) {
             Card card = new Card(null, null);
             cardsInEvent.add(card);
         }

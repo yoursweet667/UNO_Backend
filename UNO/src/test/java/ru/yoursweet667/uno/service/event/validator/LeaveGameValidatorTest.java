@@ -11,10 +11,10 @@ import java.util.Map;
 
 public class LeaveGameValidatorTest {
 
-    LeaveGameValidator leaveGameValidator = new LeaveGameValidator();
+    private static final LeaveGameValidator leaveGameValidator = new LeaveGameValidator();
 
     @Test
-    void validator_playerAlreadyRemoved_ThrowsException() {
+    void validator_playerNotFound_ThrowsException() {
         //Given
         Player player = new Player("playerId", null, null);
         Map< String, Player> players = new HashMap<>();

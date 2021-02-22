@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class JoinGameValidatorTest {
 
-    private final JoinGameValidator joinGameValidator = new JoinGameValidator();
+    private static final JoinGameValidator joinGameValidator = new JoinGameValidator();
 
     @Test
     void validate_gameAlreadyContainsPlayer_throwsException() {
@@ -22,10 +22,8 @@ public class JoinGameValidatorTest {
         Game game = new Game(null, Map.of(playerId, player), null,
                 null, null, null);
         JoinGameEvent event = new JoinGameEvent(123, null, player);
-        
-        //When
 
-        //Then
+        //When+Then
         Assertions.assertThatThrownBy(() -> joinGameValidator.validate(event, game))
                 .isInstanceOf(IllegalArgumentException.class);
 
@@ -42,9 +40,7 @@ public class JoinGameValidatorTest {
                 null, null, null);
         JoinGameEvent event = new JoinGameEvent(123, null, player);
 
-        //When
-
-        //Then
+        //When+Then
         Assertions.assertThatCode(() -> joinGameValidator.validate(event, game))
                 .doesNotThrowAnyException();
     }

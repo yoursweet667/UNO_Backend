@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CardFactoryTest {
+class CardFactoryTest {
 
     @Test
     void createDeck_createsDeck() {

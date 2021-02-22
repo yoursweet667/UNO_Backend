@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class PlayCardValidatorTest {
 
-    PlayCardValidator playCardValidator = new PlayCardValidator();
+    private static final PlayCardValidator playCardValidator = new PlayCardValidator();
 
     @Test
     void validate_itIsNotSourcePlayerTurn_exception() {

@@ -7,7 +7,7 @@ import ru.yoursweet667.uno.service.model.GameState;
 
 public class TurnCardOverValidatorTest {
 
-    private final TurnCardOverValidator turnCardOver = new TurnCardOverValidator();
+    private static final TurnCardOverValidator turnCardOver = new TurnCardOverValidator();
 
     @Test
     void validate_gameHasRequiredState_noException (){
