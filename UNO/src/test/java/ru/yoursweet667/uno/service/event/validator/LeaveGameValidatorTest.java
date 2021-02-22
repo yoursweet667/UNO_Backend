@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class LeaveGameValidatorTest {
 
-    private static final LeaveGameValidator leaveGameValidator = new LeaveGameValidator();
+    private final LeaveGameValidator leaveGameValidator = new LeaveGameValidator();
 
     @Test
     void validator_playerNotFound_ThrowsException() {

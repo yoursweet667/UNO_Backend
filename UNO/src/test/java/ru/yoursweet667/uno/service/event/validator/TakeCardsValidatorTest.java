@@ -57,8 +57,7 @@ public class TakeCardsValidatorTest {
 
     @ParameterizedTest
     @ValueSource(ints = { 6, 8 })
-
-    void validate_eventHasDifferentCardFormSeven_exception(int cards) {
+    void validate_cardsAmountInEventIsNot7_exception(int numberOfCards) {
 
 
         //Given
@@ -66,7 +65,7 @@ public class TakeCardsValidatorTest {
                 null, null, null);
         Player player = new Player(null, null, List.of());
         List<Card> cardsInEvent = new ArrayList<>();
-        for (int i = 1; i <= cards; i++) {
+        for (int i = 1; i <= numberOfCards; i++) {
             Card card = new Card(null, null);
             cardsInEvent.add(card);
         }

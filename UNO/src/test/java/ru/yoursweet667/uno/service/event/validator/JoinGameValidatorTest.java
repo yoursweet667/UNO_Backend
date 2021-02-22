@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class JoinGameValidatorTest {
 
-    private static final JoinGameValidator joinGameValidator = new JoinGameValidator();
+    private final JoinGameValidator joinGameValidator = new JoinGameValidator();
 
     @Test
     void validate_gameAlreadyContainsPlayer_throwsException() {

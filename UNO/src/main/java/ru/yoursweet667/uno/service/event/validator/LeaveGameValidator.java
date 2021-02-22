@@ -8,7 +8,7 @@ public class LeaveGameValidator implements EventValidator<LeaveGameEvent> {
     @Override
     public void validate(LeaveGameEvent event, Game game) {
         if (!game.getPlayers().containsKey(event.getPlayer().getPlayerId())) {
-            throw new IllegalStateException("Player Already Left");
+            throw new IllegalStateException("Player Isn't Found");
         }
     }
 }

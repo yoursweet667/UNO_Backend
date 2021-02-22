@@ -43,6 +43,7 @@ public class GameServiceImpl implements GameService {
         //todo: Drop the error if game or player doesn't exist
     }
 
+    @Override
     public Game getGame(String gameId) {
         return storage.getGame(gameId);
     }
