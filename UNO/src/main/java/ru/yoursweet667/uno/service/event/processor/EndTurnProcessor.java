@@ -7,7 +7,6 @@ import ru.yoursweet667.uno.service.model.event.EndTurnEvent;
 
 public class EndTurnProcessor extends BaseEventProcessor<EndTurnEvent> {
 
-
     @Override
     void doProcess(EndTurnEvent event, Game game) {
         Player nextPlayer = null;

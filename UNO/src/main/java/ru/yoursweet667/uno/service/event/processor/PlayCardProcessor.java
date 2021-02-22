@@ -5,7 +5,7 @@ import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.Player;
 import ru.yoursweet667.uno.service.model.event.PlayCardEvent;
 
-public class PlayCardProcessor extends BaseEventProcessor<PlayCardEvent>{
+public class PlayCardProcessor extends BaseEventProcessor<PlayCardEvent> {
 
     @Override
     void doProcess(PlayCardEvent event, Game game) {

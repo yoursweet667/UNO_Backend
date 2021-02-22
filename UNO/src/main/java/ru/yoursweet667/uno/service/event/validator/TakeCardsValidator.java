@@ -4,8 +4,8 @@ import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.TakeCardsEvent;
 
 /**
- * gameState испльзуется ситуативно,для одного случая необходиом состояние INITIALISING,
- * для иного GAME_ACTIVE
+ * gameState испльзуется ситуативно, для одного случая необходиом состояние INITIALISING,
+ * для иного START_TURN
  */
 
 
@@ -22,7 +22,7 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         } else throw new IllegalArgumentException("Incorrect Game State");
     }
 
-    public void validatePlayerHasNoCards(Player player) {
+    private void validatePlayerHasNoCards(Player player) {
         int requiredNumberOfCards = 0;
         int currentNumberOfCards = player.getCards().size();
         if (requiredNumberOfCards != currentNumberOfCards) {
@@ -30,41 +30,37 @@ public class TakeCardsValidator implements EventValidator<TakeCardsEvent> {
         }
     }
 
-    public void validateEventHasSevenCards(TakeCardsEvent event) {
+    private void validateEventHasSevenCards(TakeCardsEvent event) {
         int requiredNumberOfCards = 7;
         int currentNumberOfCards = event.getCards().size();
-        if(requiredNumberOfCards != currentNumberOfCards) {
+        if (requiredNumberOfCards != currentNumberOfCards) {
             throw new IllegalArgumentException("Number Of Cards Isn't 7");
         }
     }
 
-    public void validatePlayerPlaysNext(Player player, Game game) {
+    private void validatePlayerPlaysNext(Player player, Game game) {
         Player nextPlayer = game.getNextPlayer()
-                .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
+                .orElseThrow(() -> new IllegalArgumentException("Player Isn't Found"));
         if (player.equals(nextPlayer)) {
             throw new IllegalArgumentException("It Isn't " + player + " Turn");
         }
     }
 
-    public void validatePlayerDoesNotHaveACardToPlay(Player player, Game game) {
+    private void validatePlayerDoesNotHaveACardToPlay(Player player, Game game) {
 
         int playerCardsSize = player.getCards().size();
         Card lastCardInTheGame = game.getLastCardInTheGame()
                 .orElseThrow(() -> new IllegalStateException("Player Isn't Found"));
 
-        for (int i = 0; i < playerCardsSize ; i++) {
+        for (int i = 0; i < playerCardsSize; i++) {
             Card playerCard = player.getCards().get(i);
 
             CardColour lastCardInTheGameCardColour = lastCardInTheGame.getColour();
-            Integer lastCardInTheGameCardNumber = lastCardInTheGame.getNumber();
             CardColour playerCardColour = playerCard.getColour();
-            Integer playerCardNumber = playerCard.getNumber();
             CardType playerCardType = playerCard.getType();
 
-            if (!lastCardInTheGameCardColour.equals(playerCardColour) &
-                    !lastCardInTheGameCardNumber.equals(playerCardNumber) &
-                    !playerCardType.equals(CardType.CHANGE_COLOUR) &
-                    !playerCardType.equals(CardType.PLUS_4)) {
+            if (lastCardInTheGameCardColour != playerCardColour &
+                    playerCardType != lastCardInTheGame.getType()) {
                 throw new IllegalArgumentException("Player Card Doesn't Equals Required Params");
             }
         }

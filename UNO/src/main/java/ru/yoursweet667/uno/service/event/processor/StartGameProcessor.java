@@ -7,7 +7,6 @@ import ru.yoursweet667.uno.service.model.Player;
 
 public class StartGameProcessor extends BaseEventProcessor<StartGameEvent>{
 
-
     @Override
     void doProcess(StartGameEvent event, Game game) {
         Player nextPlayer = game.getPlayers().values().iterator().next();
