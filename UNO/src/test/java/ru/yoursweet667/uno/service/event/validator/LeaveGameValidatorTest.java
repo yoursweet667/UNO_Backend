@@ -24,7 +24,7 @@ public class LeaveGameValidatorTest {
 
         //When+Then
         Assertions.assertThatCode(() -> leaveGameValidator.validate(event, game))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Test

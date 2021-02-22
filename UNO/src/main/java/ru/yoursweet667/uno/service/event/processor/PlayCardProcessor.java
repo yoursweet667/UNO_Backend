@@ -12,13 +12,7 @@ public class PlayCardProcessor extends BaseEventProcessor<PlayCardEvent> {
         Card card = event.getCard();
         String sourcePlayerId = event.getSourcePlayerId();
         Player playerInTheGame = game.getPlayers().get(sourcePlayerId);
-
-        for (Card playerCard : playerInTheGame.getCards()) {
-            if (playerCard.equals(card)) {
-                game.getCardsInTheGame().add(playerCard);
-                break;
-            }
-        }
         playerInTheGame.getCards().remove(card);
+        game.getCardsInTheGame().add(card);
     }
 }
