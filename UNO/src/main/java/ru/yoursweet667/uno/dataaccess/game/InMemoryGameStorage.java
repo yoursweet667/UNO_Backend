@@ -4,11 +4,12 @@ import org.springframework.stereotype.Component;
 import ru.yoursweet667.uno.service.model.Game;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class InMemoryGameStorage implements ru.yoursweet667.uno.dataaccess.game.GameStorage {
 
-    private final Map<String, Game>gameMap = new HashMap<>();
+    private final Map<String, Game> gameMap = new HashMap<>();
 
     @Override
     public void createGame(Game game) {
@@ -30,8 +31,8 @@ public class InMemoryGameStorage implements ru.yoursweet667.uno.dataaccess.game.
     }
 
     @Override
-    public Game getGame(String gameId) {
+    public Optional<Game> getGame(String gameId) {
         //todo: Drop the error if game exist
-        return gameMap.get(gameId);
+        return Optional.ofNullable(gameMap.get(gameId));
     }
 }
