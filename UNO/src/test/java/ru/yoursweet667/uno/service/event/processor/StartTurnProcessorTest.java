@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StartTurnProcessorTest {
 
-    StartTurnProcessor startTurnProcessor = new StartTurnProcessor();
+    private final StartTurnProcessor startTurnProcessor = new StartTurnProcessor();
 
     @Test
     void doProcess_setNextPlayer() {
@@ -23,7 +23,7 @@ public class StartTurnProcessorTest {
         StartTurnEvent event = new StartTurnEvent(123, null, player);
 
         //When
-        startTurnProcessor.doProcess(event, game);
+        startTurnProcessor.doProcess(event, game, null);
 
         //Then
         assertThat(game.getNextPlayer().get().getPlayerId()).isEqualTo(event.getPlayer().getPlayerId());

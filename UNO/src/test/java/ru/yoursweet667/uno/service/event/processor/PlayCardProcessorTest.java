@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PlayCardProcessorTest {
 
-    PlayCardProcessor playCardProcessor = new PlayCardProcessor();
+    private final PlayCardProcessor playCardProcessor = new PlayCardProcessor();
 
     @Test
     void doProcess_addCardInGameAndDeleteInPlayer() {
@@ -28,11 +28,12 @@ public class PlayCardProcessorTest {
         Game game = new Game(null, Map.of(player.getPlayerId(), player),
                 null, null, cardsInGame, null);
 
+
         //When
-        playCardProcessor.doProcess(event, game);
+        playCardProcessor.doProcess(event, game, null);
 
         //Then
-        assertThat(game.getCardsInTheGame()).contains(card);
+        assertThat(game.getCardsInTheGame()).endsWith(card);
         assertThat(game.getPlayers().get(player.getPlayerId()).getCards()).doesNotContain(card);
 
     }

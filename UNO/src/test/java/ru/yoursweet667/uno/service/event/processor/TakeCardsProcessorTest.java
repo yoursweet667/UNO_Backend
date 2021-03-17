@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TakeCardsProcessorTest {
 
-    TakeCardsProcessor takeCardsProcessor = new TakeCardsProcessor();
+    private final TakeCardsProcessor takeCardsProcessor = new TakeCardsProcessor();
 
     @Test
     void doProcess_gameStateInitialising_takeCards() {
@@ -28,7 +28,7 @@ public class TakeCardsProcessorTest {
         TakeCardsEvent event = new TakeCardsEvent(123, null, List.of(card), player);
 
         //When
-        takeCardsProcessor.doProcess(event, game);
+        takeCardsProcessor.doProcess(event, game, null);
 
         //Then
         assertThat(event.getPlayer().getCards()).contains(card);
@@ -36,7 +36,7 @@ public class TakeCardsProcessorTest {
     }
 
     @Test
-    void doProcess_anyGameState_takeCards() {
+    void doProcess_anyAllowedGameState_takeCards() {
         //Given
         Card card = new Card(null, null);
         List<Card> playerCards = new ArrayList<>();
@@ -46,7 +46,7 @@ public class TakeCardsProcessorTest {
         TakeCardsEvent event = new TakeCardsEvent(123, null, List.of(card), player);
 
         //When
-        takeCardsProcessor.doProcess(event, game);
+        takeCardsProcessor.doProcess(event, game, null);
 
         //Then
         assertThat(event.getPlayer().getCards()).contains(card);

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LeaveGameProcessorTest {
 
-    LeaveGameProcessor leaveGameProcessor = new LeaveGameProcessor();
+    private final LeaveGameProcessor leaveGameProcessor = new LeaveGameProcessor();
 
     @Test
     void doProcess_gameContainsPlayer_removePlayerFromGame(){
@@ -26,10 +26,10 @@ public class LeaveGameProcessorTest {
                 null, null);
 
         //When
-        leaveGameProcessor.doProcess(event, game);
+        leaveGameProcessor.doProcess(event, game, null);
 
         //Then
-        assertThat(game.getPlayers()).doesNotContainValue(player);
+        assertThat(game.getPlayers()).doesNotContainKey(player.getPlayerId());
 
 
     }

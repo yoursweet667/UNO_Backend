@@ -1,6 +1,5 @@
 package ru.yoursweet667.uno.service.event.processor;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.GameState;
@@ -19,7 +18,7 @@ public class EndGameProcessorTest {
                 null, null, null);
 
         //When
-        endGameProcessor.doProcess(null, game);
+        endGameProcessor.doProcess(null, game, null);
 
         //Then
         assertThat(game.getGameState()).isEqualTo(GameState.GAME_ENDED);
