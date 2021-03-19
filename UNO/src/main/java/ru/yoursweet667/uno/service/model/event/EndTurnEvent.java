@@ -8,7 +8,7 @@ import java.util.Objects;
 public class EndTurnEvent extends Event {
 
     /**
-     * Player who starts turn
+     * Player who ends turn
      */
     private final Player player;
 

@@ -12,7 +12,7 @@ import java.util.Map;
     private final Map<Class<? extends Event>, EventProcessor<?>> eventTypeToProcessorMap;
     private final Map<Class<? extends Event>, EventValidator<?>> eventTypeToValidatorMap;
 
-    EventHandlerRegistry(Game game) {
+    EventHandlerRegistry() {
         eventTypeToProcessorMap = Map.of(
                 JoinGameEvent.class, new JoinGameProcessor(),
                 LeaveGameEvent.class, new LeaveGameProcessor(),
@@ -34,7 +34,6 @@ import java.util.Map;
                 TurnCardOverEvent.class, new TurnCardOverValidator()
         );
     }
-
 
     <T extends Event> EventProcessor<T> getProcessor(T event) {
         Class<? extends Event> typeOfEvent = event.getClass();

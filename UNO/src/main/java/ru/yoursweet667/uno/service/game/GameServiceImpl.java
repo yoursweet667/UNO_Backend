@@ -33,6 +33,7 @@ public class GameServiceImpl implements GameService {
         List<Card> playerCards = new ArrayList<>();
         Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
         getLocalGame(gameId).getPlayers().put(player.getPlayerId(), player);
+        //todo: Drop the error if game or player doesn't exist
         return player;
     }
 

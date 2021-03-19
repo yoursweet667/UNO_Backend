@@ -36,6 +36,8 @@ public class TurnCardOverEvent extends Event {
     public String toString() {
         return "TurnCardOverEvent{" +
                 "card=" + card +
+                ", eventId=" + getEventId() +
+                ", type=" + getType() +
                 '}';
     }
 
