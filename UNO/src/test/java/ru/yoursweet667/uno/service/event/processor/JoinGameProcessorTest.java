@@ -1,11 +1,16 @@
 package ru.yoursweet667.uno.service.event.processor;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.service.model.EventType;
 import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.Player;
 import ru.yoursweet667.uno.service.model.event.Event;
 import ru.yoursweet667.uno.service.model.event.JoinGameEvent;
+import ru.yoursweet667.uno.service.model.event.StartGameEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +23,16 @@ public class JoinGameProcessorTest {
 
     private final JoinGameProcessor joinGameProcessor = new JoinGameProcessor();
 
+    @Mock
+    private BiConsumer<String, Event> biConsumer;
+
+    @BeforeEach
+    private void beforeEach() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     void doProcess_joinPlayer() {
-
         //Given
         int i = 0;
         Map<String, Player> players = new HashMap<>();
@@ -29,29 +41,16 @@ public class JoinGameProcessorTest {
         players.put(playerForGame.getPlayerId(), playerForGame);
         Game game = new Game(null, players, null,
                 null, null, null);
-
         JoinGameEvent event = new JoinGameEvent(123, EventType.JOIN_GAME, player);
 
-        ValueHoldingBiConsumer resultEventConsumer = new ValueHoldingBiConsumer();
-
         //When
-        joinGameProcessor.doProcess(event, game, resultEventConsumer);
+        joinGameProcessor.doProcess(event, game, biConsumer);
 
         //Then
         assertThat(game.getPlayers().get("playerId")).isEqualTo(player);
-        assertThat(resultEventConsumer.event.getType()).isEqualTo(EventType.START_GAME);
-        assertThat(resultEventConsumer.gameId).isEqualTo(game.getGameId());
-    }
-
-    private static class ValueHoldingBiConsumer implements BiConsumer<String, Event> {
-
-        private Event event;
-        private String gameId;
-
-        public void accept(String gameId, Event event) {
-            this.gameId = gameId;
-            this.event = event;
-        }
+        StartGameEvent startGameEvent = new StartGameEvent
+                (event.getEventId() + 1, EventType.START_GAME);
+        Mockito.verify(biConsumer).accept(game.getGameId(), startGameEvent);
     }
 }
 

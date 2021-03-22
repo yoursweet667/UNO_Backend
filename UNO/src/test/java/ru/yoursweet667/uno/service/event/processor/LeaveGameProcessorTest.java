@@ -16,7 +16,6 @@ public class LeaveGameProcessorTest {
 
     @Test
     void doProcess_gameContainsPlayer_removePlayerFromGame(){
-
         //Given
         Map<String, Player> players = new HashMap();
         Player player = new Player("playerId", null, null);
@@ -30,7 +29,5 @@ public class LeaveGameProcessorTest {
 
         //Then
         assertThat(game.getPlayers()).doesNotContainKey(player.getPlayerId());
-
-
     }
 }

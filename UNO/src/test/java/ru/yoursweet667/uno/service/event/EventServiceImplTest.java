@@ -135,7 +135,7 @@ public class EventServiceImplTest {
     }
 
     @Test
-    void getEvents_gameExistChangeEventParams_getNeededEvents() {
+    void getEvents_eventsContainOtherPlayersSensitiveData_returnedEventsHaveHiddenDetails() {
 
         //Given
         List<Card> cards = new ArrayList<>();

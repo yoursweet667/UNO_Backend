@@ -34,25 +34,21 @@ public class StartGameProcessorTest {
 
     @Test
     void doProcess_setNextPlayerAndSetGameState() {
-
         //Given
         List<Card> cardsFirstPlayer = new ArrayList<>();
         List<Card> cardsSecondPlayer = new ArrayList<>();
+
         Player firstPlayer = new Player("playerId", null, cardsFirstPlayer);
         Player secondPlayer = new Player("playerId", null, cardsSecondPlayer);
-        Map<String, Player> players = new HashMap<>();
 
+        Map<String, Player> players = new HashMap<>();
         players.put(firstPlayer.getPlayerId(), firstPlayer);
         players.put(secondPlayer.getPlayerId(), secondPlayer);
 
         List<Card> deck = CardFactory.createDeck();
-
         Game game = new Game("gameId", players, null,
                 deck, null, null);
-
         StartGameEvent event = new StartGameEvent(1, EventType.START_GAME);
-
-
         List<Card> deckClone = new ArrayList<>(game.getDeck());
 
         //When

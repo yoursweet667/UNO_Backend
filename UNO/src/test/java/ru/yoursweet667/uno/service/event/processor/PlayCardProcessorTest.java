@@ -16,8 +16,7 @@ public class PlayCardProcessorTest {
     private final PlayCardProcessor playCardProcessor = new PlayCardProcessor();
 
     @Test
-    void doProcess_addCardInGameAndDeleteInPlayer() {
-
+    void doProcess_addCardToGameAndRemoveItFromPlayer() {
         //Given
         List<Card> cards = new ArrayList<>();
         Card card = new Card(CardType.FIVE, CardColour.BLUE);
@@ -28,14 +27,11 @@ public class PlayCardProcessorTest {
         Game game = new Game(null, Map.of(player.getPlayerId(), player),
                 null, null, cardsInGame, null);
 
-
         //When
         playCardProcessor.doProcess(event, game, null);
 
         //Then
         assertThat(game.getCardsInTheGame()).endsWith(card);
         assertThat(game.getPlayers().get(player.getPlayerId()).getCards()).doesNotContain(card);
-
     }
-
 }

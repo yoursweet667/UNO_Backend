@@ -11,8 +11,7 @@ public class EndGameProcessorTest {
     private static final EndGameProcessor endGameProcessor = new EndGameProcessor();
 
     @Test
-    void doProcess_anyGameState_changeGameState() {
-
+    void doProcess_changeGameState() {
         //Given
         Game game = new Game(null, null, GameState.START_TURN,
                 null, null, null);
@@ -22,6 +21,5 @@ public class EndGameProcessorTest {
 
         //Then
         assertThat(game.getGameState()).isEqualTo(GameState.GAME_ENDED);
-
     }
 }

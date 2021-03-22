@@ -1,6 +1,7 @@
 package ru.yoursweet667.uno.dataaccess.game;
 
 import org.springframework.stereotype.Component;
+import ru.yoursweet667.uno.dataaccess.game.exception.InvalidGameStorageRequestException;
 import ru.yoursweet667.uno.service.model.Game;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,26 +14,34 @@ public class InMemoryGameStorage implements ru.yoursweet667.uno.dataaccess.game.
 
     @Override
     public void createGame(Game game) {
-        //todo: Drop the error if game exist
+        if (gameMap.containsKey(game.getGameId())) {
+            throw new InvalidGameStorageRequestException("Game with id:" + game.getGameId() + " already exist");
+        } else
         gameMap.put(game.getGameId(), game);
     }
 
     @Override
     public void updateGame(Game game) {
        String gameId = game.getGameId();
-       //todo: Drop the error if game doesn't exist
+       if (!gameMap.containsKey(gameId))  {
+           throw new InvalidGameStorageRequestException("Game with id:" + gameId + " doesn't exist");
+       } else
        gameMap.put(gameId, game);
     }
 
     @Override
     public void deleteGame(String gameId) {
-        //todo: Drop the error if game doesn't exist
-        gameMap.remove(gameId);
+        if (!gameMap.containsKey(gameId))  {
+            throw new InvalidGameStorageRequestException("Game with id:" + gameId + " doesn't exist");
+        } else
+            gameMap.remove(gameId);
     }
 
     @Override
     public Optional<Game> getGame(String gameId) {
-        //todo: Drop the error if game exist
-        return Optional.ofNullable(gameMap.get(gameId));
+        if (!gameMap.containsKey(gameId))  {
+            throw new InvalidGameStorageRequestException("Game with id:" + gameId + " doesn't exist");
+        } else
+            return Optional.ofNullable(gameMap.get(gameId));
     }
 }

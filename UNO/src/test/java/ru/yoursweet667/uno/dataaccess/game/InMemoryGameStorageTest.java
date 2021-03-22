@@ -28,7 +28,6 @@ public class InMemoryGameStorageTest {
 
     @Test
     void createGame_putGameInMap() {
-
         //Given
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
@@ -36,15 +35,15 @@ public class InMemoryGameStorageTest {
         //When
         storage.createGame(game);
 
-
         //Then
-        Mockito.verify(storage).createGame(game);
+        Optional<Game> gameFromStorage = storage.getGame(GAME_ID);
 
+        assertThat(gameFromStorage).isPresent();
+        assertThat(gameFromStorage.get()).isEqualTo(game);
     }
 
     @Test
     void updateGame_putGameInMap() {
-
         //Give
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
@@ -54,12 +53,10 @@ public class InMemoryGameStorageTest {
 
         //Then
         Mockito.verify(storage).updateGame(game);
-
     }
 
     @Test
     void deleteGame_removeGame() {
-
         //Give
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
@@ -69,24 +66,21 @@ public class InMemoryGameStorageTest {
 
         //Then
         Mockito.verify(storage).deleteGame(game.getGameId());
-
     }
 
     @Test
     void getGame_returnGame() {
-
         //Give
         Game game = new Game(GAME_ID, null, null,
                 null, null, null);
 
-        Mockito.when(inMemoryGameStorage.getGame(GAME_ID)).thenReturn(Optional.of(game));
+        storage.createGame(game);
 
         //When
-        Optional<Game> gameFromMap = inMemoryGameStorage.getGame(game.getGameId());
-
-        String gameId = gameFromMap.get().getGameId();
+        Optional<Game> resultGame = inMemoryGameStorage.getGame(game.getGameId());
 
         //Then
-        assertThat(gameId).isEqualTo(game.getGameId());
+        assertThat(resultGame).isPresent();
+        assertThat(resultGame.get()).isEqualTo(game);
     }
 }

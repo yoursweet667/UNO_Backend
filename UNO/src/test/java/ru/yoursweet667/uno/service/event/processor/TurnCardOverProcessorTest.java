@@ -1,8 +1,13 @@
 package ru.yoursweet667.uno.service.event.processor;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.Event;
+import ru.yoursweet667.uno.service.model.event.StartTurnEvent;
 import ru.yoursweet667.uno.service.model.event.TurnCardOverEvent;
 
 import java.util.ArrayList;
@@ -15,9 +20,16 @@ public class TurnCardOverProcessorTest {
 
     private final TurnCardOverProcessor turnCardOverProcessor = new TurnCardOverProcessor();
 
+    @Mock
+    private BiConsumer<String, Event> biConsumer;
+
+    @BeforeEach
+    private void beforeEach() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
     void doProcess_addCardInGame() {
-
         //Given
         Player nextPlayerInGame = new Player(null, null, null);
         List<Card> cardsInTheGame = new ArrayList<>();
@@ -28,23 +40,12 @@ public class TurnCardOverProcessorTest {
         game.setNextPlayer(nextPlayerInGame);
 
         //When
-        ValueHoldingBiConsumer resultEventConsumer = new ValueHoldingBiConsumer();
-        turnCardOverProcessor.doProcess(event, game, resultEventConsumer);
+        turnCardOverProcessor.doProcess(event, game, biConsumer);
 
         //Then
         assertThat(game.getCardsInTheGame()).contains(event.getCard());
-        assertThat(resultEventConsumer.gameId).isEqualTo(game.getGameId());
-        assertThat(resultEventConsumer.event.getType()).isEqualTo(EventType.START_TURN);
-    }
-
-    private static class ValueHoldingBiConsumer implements BiConsumer<String, Event> {
-
-        private Event event;
-        private String gameId;
-
-        public void accept(String gameId, Event event) {
-            this.gameId = gameId;
-            this.event = event;
-        }
+        StartTurnEvent startTurnEvent = new StartTurnEvent
+                (event.getEventId() + 1, EventType.START_TURN, game.getNextPlayer().get());
+        Mockito.verify(biConsumer).accept(game.getGameId(), startTurnEvent);
     }
 }

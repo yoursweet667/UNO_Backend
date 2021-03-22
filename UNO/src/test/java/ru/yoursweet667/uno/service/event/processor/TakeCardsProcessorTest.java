@@ -18,7 +18,6 @@ public class TakeCardsProcessorTest {
 
     @Test
     void doProcess_gameStateInitialising_takeCards() {
-
         //Given
         Card card = new Card(null, null);
         List<Card> playerCards = new ArrayList<>();
@@ -32,11 +31,10 @@ public class TakeCardsProcessorTest {
 
         //Then
         assertThat(event.getPlayer().getCards()).contains(card);
-
     }
 
     @Test
-    void doProcess_anyAllowedGameState_takeCards() {
+    void doProcess_gameStateStartTurn_takeCards() {
         //Given
         Card card = new Card(null, null);
         List<Card> playerCards = new ArrayList<>();
@@ -50,6 +48,5 @@ public class TakeCardsProcessorTest {
 
         //Then
         assertThat(event.getPlayer().getCards()).contains(card);
-
     }
 }

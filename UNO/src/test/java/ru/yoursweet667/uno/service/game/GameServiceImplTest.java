@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
 import ru.yoursweet667.uno.service.model.Game;
+import ru.yoursweet667.uno.service.model.GameState;
 import ru.yoursweet667.uno.service.model.Player;
 
 import java.util.HashMap;
@@ -34,7 +35,6 @@ public class GameServiceImplTest {
 
     @Test
     void createGame_createsGame() {
-
         //Given+When
         Game game = gameServiceImpl.createGame();
 
@@ -42,23 +42,19 @@ public class GameServiceImplTest {
         assertThat(game).isNotNull();
         assertThat(game.getGameId()).isNotNull();
         assertThat(game.getPlayers()).isEmpty();
-        assertThat(game.getGameState()).isNotNull();
-        assertThat(game.getDeck()).isNotEmpty();
+        assertThat(game.getGameState()).isEqualTo(GameState.GAME_CREATED);
+        assertThat(game.getDeck()).hasSize(108);
         assertThat(game.getCardsInTheGame()).isEmpty();
         assertThat(game.getEvents()).isEmpty();
 
         Mockito.verify(storage).createGame(game);
-
-
     }
 
     @Test
-    void addPlayerToGame_addPlayerToLocalGame() {
-
+    void addPlayerToGame_addPlayerToGame() {
         //Given
         Game game = new Game(GAME_ID, new HashMap<>(), null,
                 null, null, null);
-
         Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
 
         //When
@@ -67,46 +63,10 @@ public class GameServiceImplTest {
         //Then
         assertThat(game.getPlayers()).containsKey(player.getPlayerId());
         assertThat(game.getPlayers().get(player.getPlayerId())).isEqualTo(player);
-
-    }
-
-    @Test
-    void addPlayerToGame_gameNotFound_exception() {
-
-        //Given
-        Game game = new Game(GAME_ID, new HashMap<>(), null,
-                null, null, null);
-
-        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
-
-        //When
-        Player player = gameServiceImpl.addPlayerToGame(GAME_ID, "playerName");
-
-        //Then
-        assertThat(storage.getGame(GAME_ID)).isNotNull();
-
     }
 
     @Test
     void removePlayerFromGame_removePlayer() {
-
-        //Given
-        Game game = new Game(GAME_ID, new HashMap<>(), null,
-                null, null, null);
-
-        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
-
-        //When
-        Player player = gameServiceImpl.addPlayerToGame(GAME_ID, "playerName");
-
-        //Then
-        assertThat(storage.getGame(GAME_ID)).isNotNull();
-
-    }
-
-    @Test
-    void removePlayerFromGame_gameNotFound_exception() {
-
         //Given
         Map<String, Player> players = new HashMap<>();
         Player player = new Player(PLAYER_ID, null, null);
@@ -126,18 +86,15 @@ public class GameServiceImplTest {
 
     @Test
     void getGame_returnGameFromStorage() {
-
         //Given
         Game game = new Game(GAME_ID, null, null,
                 null, null, null);
-
         Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
 
         //When
         Optional<Game> gameFromStorage = gameServiceImpl.getGame(GAME_ID);
 
         //Then
-        assertThat(gameFromStorage.get().getGameId()).isEqualTo(game.getGameId());
+        assertThat(gameFromStorage.get()).isEqualTo(game);
     }
-
 }
