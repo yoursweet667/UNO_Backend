@@ -17,7 +17,6 @@ import java.util.function.BiConsumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class SkipTurnProcessorTest {
 
     private final SkipTurnProcessor skipTurnProcessor = new SkipTurnProcessor();
@@ -31,7 +30,7 @@ public class SkipTurnProcessorTest {
     }
 
     @Test
-    void doProcess_setCorrectNextPlayer() {
+    void doProcess_spawnNextEvent_skipTurn() {
         //Given
         Player player = new Player("playerId", null, null);
         Game game = new Game(null, Map.of(player.getPlayerId(), player), null,
@@ -42,7 +41,7 @@ public class SkipTurnProcessorTest {
         skipTurnProcessor.doProcess(event, game, biConsumer);
 
         //Then
-        assertThat(game.getNextPlayer().get().getPlayerId()).isEqualTo(event.getPlayer().getPlayerId());
+
         EndTurnEvent endTurnEvent = new EndTurnEvent
                 (event.getEventId() + 1, EventType.END_TURN, event.getPlayer());
         Mockito.verify(biConsumer).accept(game.getGameId(), endTurnEvent);

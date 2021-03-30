@@ -32,6 +32,6 @@ public class PlayCardProcessorTest {
 
         //Then
         assertThat(game.getCardsInTheGame()).endsWith(card);
-        assertThat(game.getPlayers().get(player.getPlayerId()).getCards()).doesNotContain(card);
+        assertThat(player.getCards()).doesNotContain(card);
     }
 }

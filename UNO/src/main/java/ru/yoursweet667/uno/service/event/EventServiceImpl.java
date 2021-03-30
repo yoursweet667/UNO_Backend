@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
 
             if (!playerId.equals(takeCardsEvent.getPlayer().getPlayerId())) {
                 List<Card> newCards = takeCardsEvent.getCards().stream()
-                        .map(this::changeCardsParams)
+                        .map(this::hideCardsDetails)
                         .collect(Collectors.toList());
 
                 TakeCardsEvent changedTakeCardsEvent = new TakeCardsEvent
@@ -65,10 +65,8 @@ public class EventServiceImpl implements EventService {
        else { return event; }
     }
 
-    private Card changeCardsParams(Card card) {
+    private Card hideCardsDetails(Card card) {
 
-        Card changedCard = new Card(card.getType(), card.getColour(), false);
-
-        return changedCard;
+        return new Card(card.getType(), card.getColour(), false);
     }
 }

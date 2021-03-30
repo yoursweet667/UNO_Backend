@@ -31,7 +31,7 @@ public class EndTurnProcessorTest {
     }
 
     @Test
-    void doProcess_changeGameStateAndNextPlayer_startTurn() {
+    void doProcess_playerHaveCardsToPlay_startTurn() {
         //Given
         Player player = new Player("playerId", null, null);
         List<Card> cards = new ArrayList<>();
@@ -66,7 +66,7 @@ public class EndTurnProcessorTest {
     }
 
     @Test
-    void doProcess_changeGameStateAndNextPlayer_endGame() {
+    void doProcess_playerHasNoMoreCardsToPlay_endGame() {
         //Given
         Player player = new Player("playerId", null, null);
         List<Card> cards = new ArrayList<>();

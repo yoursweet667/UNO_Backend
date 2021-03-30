@@ -32,14 +32,14 @@ public class GameServiceImpl implements GameService {
     public Player addPlayerToGame(String gameId, String playerName) {
         List<Card> playerCards = new ArrayList<>();
         Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
-        getLocalGame(gameId).getPlayers().put(player.getPlayerId(), player);
+        getGameFromOptional(gameId).getPlayers().put(player.getPlayerId(), player);
         //todo: Drop the error if game or player doesn't exist
         return player;
     }
 
     @Override
     public void removePlayerFromGame(String gameId, String playerId) {
-        getLocalGame(gameId).getPlayers().remove(playerId);
+        getGameFromOptional(gameId).getPlayers().remove(playerId);
         //todo: Drop the error if game or player doesn't exist
     }
 
@@ -48,7 +48,7 @@ public class GameServiceImpl implements GameService {
         return storage.getGame(gameId);
     }
 
-    private Game getLocalGame(String gameId) {
+    private Game getGameFromOptional(String gameId) {
         return storage.getGame(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("Game not found"));
     }

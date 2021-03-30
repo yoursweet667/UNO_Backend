@@ -41,6 +41,7 @@ public class GameServiceImplTest {
         //Then
         assertThat(game).isNotNull();
         assertThat(game.getGameId()).isNotNull();
+        assertThat(game.getGameId()).isNotEmpty();
         assertThat(game.getPlayers()).isEmpty();
         assertThat(game.getGameState()).isEqualTo(GameState.GAME_CREATED);
         assertThat(game.getDeck()).hasSize(108);

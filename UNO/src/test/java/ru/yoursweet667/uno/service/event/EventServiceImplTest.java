@@ -127,11 +127,13 @@ public class EventServiceImplTest {
         Mockito.when(gameService.getGame(GAME_ID)).thenReturn(Optional.of(game));
 
         //When
-        int fromEventId = 0;
+        int fromEventId = 1;
         List<Event> events = eventService.getEvents(GAME_ID, PLAYER_ID, fromEventId);
 
         //Then
         assertThat(fromEventId).isLessThanOrEqualTo(events.size());
+        assertThat(events).doesNotContain(firstEvent);
+        assertThat(events).contains(secondEvent);
     }
 
     @Test

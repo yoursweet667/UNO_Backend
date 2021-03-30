@@ -38,8 +38,8 @@ public class StartGameProcessorTest {
         List<Card> cardsFirstPlayer = new ArrayList<>();
         List<Card> cardsSecondPlayer = new ArrayList<>();
 
-        Player firstPlayer = new Player("playerId", null, cardsFirstPlayer);
-        Player secondPlayer = new Player("playerId", null, cardsSecondPlayer);
+        Player firstPlayer = new Player("firstPlayerId", null, cardsFirstPlayer);
+        Player secondPlayer = new Player("secondPlayerId", null, cardsSecondPlayer);
 
         Map<String, Player> players = new HashMap<>();
         players.put(firstPlayer.getPlayerId(), firstPlayer);

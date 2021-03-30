@@ -12,6 +12,5 @@ public class TakeCardsProcessor extends BaseEventProcessor<TakeCardsEvent> {
     @Override
     void doProcess(TakeCardsEvent event, Game game, BiConsumer<String, Event> resultEventConsumer) {
         event.getPlayer().getCards().addAll(event.getCards());
-
     }
 }

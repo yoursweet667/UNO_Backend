@@ -43,7 +43,8 @@ public class TurnCardOverProcessorTest {
         turnCardOverProcessor.doProcess(event, game, biConsumer);
 
         //Then
-        assertThat(game.getCardsInTheGame()).contains(event.getCard());
+        assertThat(game.getCardsInTheGame()).endsWith(event.getCard());
+        assertThat(game.getCardsInTheGame().size()).isEqualTo(1);
         StartTurnEvent startTurnEvent = new StartTurnEvent
                 (event.getEventId() + 1, EventType.START_TURN, game.getNextPlayer().get());
         Mockito.verify(biConsumer).accept(game.getGameId(), startTurnEvent);

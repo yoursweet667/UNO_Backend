@@ -39,9 +39,6 @@ public class InMemoryGameStorage implements ru.yoursweet667.uno.dataaccess.game.
 
     @Override
     public Optional<Game> getGame(String gameId) {
-        if (!gameMap.containsKey(gameId))  {
-            throw new InvalidGameStorageRequestException("Game with id:" + gameId + " doesn't exist");
-        } else
             return Optional.ofNullable(gameMap.get(gameId));
     }
 }

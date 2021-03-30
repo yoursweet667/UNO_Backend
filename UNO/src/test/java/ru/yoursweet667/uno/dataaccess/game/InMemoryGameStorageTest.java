@@ -15,11 +15,7 @@ public class InMemoryGameStorageTest {
 
     private final static String GAME_ID = "gameId";
 
-    @Mock
-    private GameStorage storage;
-
-    @Mock
-    private InMemoryGameStorage inMemoryGameStorage;
+    private InMemoryGameStorage inMemoryGameStorage = new InMemoryGameStorage();
 
     @BeforeEach
     private void beforeEach() {
@@ -33,10 +29,10 @@ public class InMemoryGameStorageTest {
                 null,null);
 
         //When
-        storage.createGame(game);
+        inMemoryGameStorage.createGame(game);
 
         //Then
-        Optional<Game> gameFromStorage = storage.getGame(GAME_ID);
+        Optional<Game> gameFromStorage = inMemoryGameStorage.getGame(GAME_ID);
 
         assertThat(gameFromStorage).isPresent();
         assertThat(gameFromStorage.get()).isEqualTo(game);
@@ -49,10 +45,12 @@ public class InMemoryGameStorageTest {
                 null,null);
 
         //When
-        storage.updateGame(game);
+        inMemoryGameStorage.updateGame(game);
 
         //Then
-        Mockito.verify(storage).updateGame(game);
+        Optional<Game> returnedGame = inMemoryGameStorage.getGame(GAME_ID);
+        assertThat(returnedGame.isPresent());
+        assertThat(returnedGame.get()).isEqualTo(game);
     }
 
     @Test
@@ -62,10 +60,10 @@ public class InMemoryGameStorageTest {
                 null,null);
 
         //When
-        storage.deleteGame(game.getGameId());
+        inMemoryGameStorage.deleteGame(game.getGameId());
 
         //Then
-        Mockito.verify(storage).deleteGame(game.getGameId());
+        assertThat(inMemoryGameStorage.getGame(GAME_ID)).isEmpty();
     }
 
     @Test
@@ -74,7 +72,7 @@ public class InMemoryGameStorageTest {
         Game game = new Game(GAME_ID, null, null,
                 null, null, null);
 
-        storage.createGame(game);
+        inMemoryGameStorage.createGame(game);
 
         //When
         Optional<Game> resultGame = inMemoryGameStorage.getGame(game.getGameId());

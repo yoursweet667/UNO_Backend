@@ -48,6 +48,7 @@ public class JoinGameProcessorTest {
 
         //Then
         assertThat(game.getPlayers().get("playerId")).isEqualTo(player);
+        assertThat(game.getPlayers().size()).isEqualTo(2);
         StartGameEvent startGameEvent = new StartGameEvent
                 (event.getEventId() + 1, EventType.START_GAME);
         Mockito.verify(biConsumer).accept(game.getGameId(), startGameEvent);

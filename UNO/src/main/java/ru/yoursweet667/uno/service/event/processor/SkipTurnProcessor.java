@@ -12,7 +12,6 @@ public class SkipTurnProcessor extends BaseEventProcessor<SkipTurnEvent> {
 
     @Override
     void doProcess(SkipTurnEvent event, Game game, BiConsumer<String, Event> resultEventConsumer) {
-        game.setNextPlayer(game.getPlayers().get(event.getPlayer().getPlayerId()));
 
         EndTurnEvent endTurnEvent = new EndTurnEvent
                 (event.getEventId() + 1, EventType.END_TURN, event.getPlayer());
