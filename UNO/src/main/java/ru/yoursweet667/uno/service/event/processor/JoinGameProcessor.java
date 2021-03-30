@@ -19,7 +19,6 @@ public class JoinGameProcessor extends BaseEventProcessor<JoinGameEvent>{
             StartGameEvent startGameEvent = new StartGameEvent
                     (event.getEventId() + 1, EventType.START_GAME);
             resultEventConsumer.accept(game.getGameId(), startGameEvent);
-
         }
     }
 }

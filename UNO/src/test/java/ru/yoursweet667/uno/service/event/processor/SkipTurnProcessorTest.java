@@ -30,7 +30,7 @@ public class SkipTurnProcessorTest {
     }
 
     @Test
-    void doProcess_spawnNextEvent_skipTurn() {
+    void doProcess_skipTurn() {
         //Given
         Player player = new Player("playerId", null, null);
         Game game = new Game(null, Map.of(player.getPlayerId(), player), null,

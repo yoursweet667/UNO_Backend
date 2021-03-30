@@ -34,7 +34,23 @@ public class JoinGameProcessorTest {
     @Test
     void doProcess_joinPlayer() {
         //Given
-        int i = 0;
+
+        Map<String, Player> players = new HashMap<>();
+        Player player = new Player("playerId", null, null);
+        Game game = new Game(null, players, null,
+                null, null, null);
+        JoinGameEvent event = new JoinGameEvent(123, EventType.JOIN_GAME, player);
+
+        //When
+        joinGameProcessor.doProcess(event, game, biConsumer);
+
+        //Then
+        assertThat(game.getPlayers().get("playerId")).isEqualTo(player);
+    }
+
+    @Test
+    void doProcess_gameContains2Players_SpawnNextEvent(){
+        //Given
         Map<String, Player> players = new HashMap<>();
         Player playerForGame = new Player("somePlayerId", null, null);
         Player player = new Player("playerId", null, null);
@@ -47,7 +63,6 @@ public class JoinGameProcessorTest {
         joinGameProcessor.doProcess(event, game, biConsumer);
 
         //Then
-        assertThat(game.getPlayers().get("playerId")).isEqualTo(player);
         assertThat(game.getPlayers().size()).isEqualTo(2);
         StartGameEvent startGameEvent = new StartGameEvent
                 (event.getEventId() + 1, EventType.START_GAME);
