@@ -12,6 +12,10 @@ import ru.yoursweet667.uno.service.model.event.Event;
 import ru.yoursweet667.uno.service.model.event.JoinGameEvent;
 import ru.yoursweet667.uno.service.model.event.StartGameEvent;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -32,9 +36,8 @@ public class JoinGameProcessorTest {
     }
 
     @Test
-    void doProcess_joinPlayer() {
+    void doProcess_gameHasNoPlayers_joinPlayerAndDoNotSpawnNextEvent() {
         //Given
-
         Map<String, Player> players = new HashMap<>();
         Player player = new Player("playerId", null, null);
         Game game = new Game(null, players, null,
@@ -46,6 +49,9 @@ public class JoinGameProcessorTest {
 
         //Then
         assertThat(game.getPlayers().get("playerId")).isEqualTo(player);
+        StartGameEvent startGameEvent = new StartGameEvent
+                (event.getEventId() + 1, EventType.START_GAME);
+        Mockito.verify(biConsumer, never()).accept(any(), any());
     }
 
     @Test

@@ -30,7 +30,7 @@ public class SkipTurnProcessorTest {
     }
 
     @Test
-    void doProcess_skipTurn() {
+    void doProcess_spawnEndTurnEvent() {
         //Given
         Player player = new Player("playerId", null, null);
         Game game = new Game(null, Map.of(player.getPlayerId(), player), null,
@@ -41,7 +41,6 @@ public class SkipTurnProcessorTest {
         skipTurnProcessor.doProcess(event, game, biConsumer);
 
         //Then
-
         EndTurnEvent endTurnEvent = new EndTurnEvent
                 (event.getEventId() + 1, EventType.END_TURN, event.getPlayer());
         Mockito.verify(biConsumer).accept(game.getGameId(), endTurnEvent);
