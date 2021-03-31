@@ -11,15 +11,28 @@ public class Card {
      * Colour of card
      */
     private final CardColour colour;
+    /**
+     *
+     */
+    private final boolean visible;
+
+
+    public Card(CardType type, CardColour colour, boolean visible) {
+        this.type = type;
+        this.colour = colour;
+        this.visible = visible;
+    }
 
     public Card(CardType type, CardColour colour) {
         this.type = type;
         this.colour = colour;
+        this.visible = true;
     }
 
     public Card(CardType type) {
         this.type = type;
         this.colour = null;
+        this.visible = true;
     }
 
     @Override
@@ -27,13 +40,9 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return type == card.type &&
+        return visible == card.visible &&
+                type == card.type &&
                 colour == card.colour;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, colour);
     }
 
     @Override
@@ -41,7 +50,13 @@ public class Card {
         return "Card{" +
                 "type=" + type +
                 ", colour=" + colour +
+                ", visible=" + visible +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, colour, visible);
     }
 
     public CardType getType() {
@@ -52,4 +67,7 @@ public class Card {
         return colour;
     }
 
+    public boolean getVisible() {
+        return visible;
+    }
 }
