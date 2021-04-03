@@ -23,7 +23,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void createEvent(String gameId, Event event) {
         Game game = gameService.getGame(gameId)
-                .orElseThrow(() -> new GameNotFoundException("Game with id:" + gameId + "not found"));
+                .orElseThrow(() -> new GameNotFoundException("Game with id: " + gameId + "not found"));
 
         eventHandlerRegistry.getValidator(event).validate(event, game);
         eventHandlerRegistry.getProcessor(event).process(event, game, this::createEvent);
@@ -32,7 +32,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> getEvents(String gameId, String playerId, Integer fromEventId) {
         Game game = gameService.getGame(gameId)
-                .orElseThrow(() -> new GameNotFoundException("Game with id:" + gameId + "not found"));
+                .orElseThrow(() -> new GameNotFoundException("Game with id: " + gameId + "not found"));
         List<Event> events = game.getEvents();
 
         return events.subList(fromEventId, events.size()).stream()

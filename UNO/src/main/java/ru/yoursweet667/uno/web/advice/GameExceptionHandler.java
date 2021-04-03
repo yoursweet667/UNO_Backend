@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.yoursweet667.uno.dataaccess.game.exception.InvalidGameStorageRequestException;
-import ru.yoursweet667.uno.service.exception.GameExistException;
+import ru.yoursweet667.uno.service.exception.GameAlreadyExistsException;
 import ru.yoursweet667.uno.service.exception.GameNotFoundException;
 import ru.yoursweet667.uno.service.exception.PlayerNotFoundException;
 import ru.yoursweet667.uno.web.model.Error;
@@ -30,8 +30,8 @@ public class GameExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(exception, error, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
     }
 
-    @ExceptionHandler(GameExistException.class)
-    public ResponseEntity<Object> handle(GameExistException exception, WebRequest webRequest) {
+    @ExceptionHandler(GameAlreadyExistsException.class)
+    public ResponseEntity<Object> handle(GameAlreadyExistsException exception, WebRequest webRequest) {
 
         Error error = new Error(exception.getMessage());
         return handleExceptionInternal(exception, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);

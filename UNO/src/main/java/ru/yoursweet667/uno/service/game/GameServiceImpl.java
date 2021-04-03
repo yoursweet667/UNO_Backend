@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
 import ru.yoursweet667.uno.service.exception.GameNotFoundException;
-import ru.yoursweet667.uno.service.exception.PlayerExistException;
+import ru.yoursweet667.uno.service.exception.PlayerAlreadyExistsException;
+import ru.yoursweet667.uno.service.exception.PlayerNotFoundException;
 import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.Event;
 
@@ -33,22 +34,19 @@ public class GameServiceImpl implements GameService {
     public Player addPlayerToGame(String gameId, String playerName) {
         List<Card> playerCards = new ArrayList<>();
         Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
-        getGameFromOptional(gameId).getPlayers().put(player.getPlayerId(), player);
 
-        if(storage.getGame(gameId).isEmpty()) {
-            throw new GameNotFoundException("Game with id:" + gameId + "not found");
-        } else if (storage.getGame(gameId).get().getPlayers().containsValue(player)) {
-            throw new PlayerExistException("Player:" + playerName + "already exist");
+        if (getGameFromOptional(gameId).getPlayers().containsValue(player)) {
+            throw new PlayerAlreadyExistsException("Player: " + playerName + "already exist");
         } else
+        getGameFromOptional(gameId).getPlayers().put(player.getPlayerId(), player);
         return player;
     }
 
     @Override
     public void removePlayerFromGame(String gameId, String playerId) {
-        if(storage.getGame(gameId).isEmpty()) {
-            throw new GameNotFoundException("Game with id:" + gameId + "not found");
-        } else if (!storage.getGame(gameId).get().getPlayers().containsKey(playerId)) {
-            throw new PlayerExistException("Player:" + playerId + "not found");
+        Game game = getGameFromOptional(gameId);
+        if (!game.getPlayers().containsKey(playerId)) {
+            throw new PlayerNotFoundException("Player: " + playerId + "not found");
         } else
         getGameFromOptional(gameId).getPlayers().remove(playerId);
     }
@@ -60,6 +58,6 @@ public class GameServiceImpl implements GameService {
 
     private Game getGameFromOptional(String gameId) {
         return storage.getGame(gameId)
-                .orElseThrow(() -> new GameNotFoundException("Game with id:" + gameId + "not found"));
+                .orElseThrow(() -> new GameNotFoundException("Game with id: " + gameId + "not found"));
     }
 }

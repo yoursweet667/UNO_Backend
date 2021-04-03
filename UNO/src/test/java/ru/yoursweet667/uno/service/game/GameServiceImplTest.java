@@ -1,5 +1,6 @@
 package ru.yoursweet667.uno.service.game;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -7,6 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
+import ru.yoursweet667.uno.service.exception.GameNotFoundException;
+import ru.yoursweet667.uno.service.exception.PlayerNotFoundException;
 import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.GameState;
 import ru.yoursweet667.uno.service.model.Player;
@@ -66,12 +69,38 @@ public class GameServiceImplTest {
         assertThat(game.getPlayers().get(player.getPlayerId())).isEqualTo(player);
     }
 
+    //todo: fix this test 
+    @Test
+    void addPlayerToGame_playerNotFound_exception() {
+        //Given
+        Player player = new Player("somePlayerId", "playerName", null);
+        Game game = new Game(GAME_ID, Map.of(player.getPlayerId(), player), null,
+                null, null, null);
+        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> gameServiceImpl.addPlayerToGame(GAME_ID, "playerName"))
+                .isInstanceOf(PlayerNotFoundException.class);
+    }
+
+    @Test
+    void addPlayerToGame_gameNotFound_exception() {
+        //Given
+        Game game = new Game("someGameId", new HashMap<>(), null,
+                null, null, null);
+        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.empty());
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> gameServiceImpl.addPlayerToGame(GAME_ID, "playerName"))
+                .isInstanceOf(GameNotFoundException.class);
+    }
+
     @Test
     void removePlayerFromGame_removePlayer() {
         //Given
         Map<String, Player> players = new HashMap<>();
         Player player = new Player(PLAYER_ID, null, null);
-        players.put(player.getPlayerId() ,player);
+        players.put(player.getPlayerId(), player);
 
         Game game = new Game(GAME_ID, players, null,
                 null, null, null);
@@ -83,6 +112,40 @@ public class GameServiceImplTest {
 
         //Then
         assertThat(game.getPlayers()).doesNotContainKey(player.getPlayerId());
+    }
+
+    @Test
+    void removePlayerFromGame_playerNotFound_exception() {
+        //Given
+        Map<String, Player> players = new HashMap<>();
+        Player player = new Player("somePlayerId", null, null);
+        players.put(player.getPlayerId(), player);
+
+        Game game = new Game(GAME_ID, players, null,
+                null, null, null);
+
+        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> gameServiceImpl.removePlayerFromGame(GAME_ID, PLAYER_ID))
+                .isInstanceOf(PlayerNotFoundException.class);
+    }
+
+    @Test
+    void removePlayerFromGame_gameNotFound_exception() {
+        //Given
+        Map<String, Player> players = new HashMap<>();
+        Player player = new Player(PLAYER_ID, null, null);
+        players.put(player.getPlayerId(), player);
+
+        Game game = new Game(GAME_ID, players, null,
+                null, null, null);
+
+        Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.empty());
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> gameServiceImpl.removePlayerFromGame(GAME_ID, PLAYER_ID))
+                .isInstanceOf(GameNotFoundException.class);
     }
 
     @Test

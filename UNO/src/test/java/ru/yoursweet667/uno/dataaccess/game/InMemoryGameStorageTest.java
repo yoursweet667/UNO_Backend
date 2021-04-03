@@ -1,12 +1,16 @@
 package ru.yoursweet667.uno.dataaccess.game;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import ru.yoursweet667.uno.dataaccess.game.exception.InvalidGameStorageRequestException;
 import ru.yoursweet667.uno.service.model.Game;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,18 +43,45 @@ public class InMemoryGameStorageTest {
     }
 
     @Test
+    void createGame_gameAlreadyExists_exception() {
+        //Given
+        Game game = new Game(GAME_ID,null,null,null,
+                null,null);
+
+        //When
+        inMemoryGameStorage.createGame(game);
+
+        //Then
+        Assertions.assertThatThrownBy(() -> inMemoryGameStorage.createGame(game))
+                .isInstanceOf(InvalidGameStorageRequestException.class);
+    }
+
+    @Test
     void updateGame_putGameInMap() {
         //Give
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
 
         //When
+        inMemoryGameStorage.createGame(game);
         inMemoryGameStorage.updateGame(game);
 
         //Then
         Optional<Game> returnedGame = inMemoryGameStorage.getGame(GAME_ID);
         assertThat(returnedGame.isPresent());
+        assertThat(returnedGame).isPresent();
         assertThat(returnedGame.get()).isEqualTo(game);
+    }
+
+    @Test
+    void updateGame_gameNotFound_exception() {
+        //Give
+        Game game = new Game(GAME_ID,null,null,null,
+                null,null);
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> inMemoryGameStorage.updateGame(game))
+                .isInstanceOf(InvalidGameStorageRequestException.class);
     }
 
     @Test
@@ -60,10 +91,22 @@ public class InMemoryGameStorageTest {
                 null,null);
 
         //When
+        inMemoryGameStorage.createGame(game);
         inMemoryGameStorage.deleteGame(game.getGameId());
 
         //Then
         assertThat(inMemoryGameStorage.getGame(GAME_ID)).isEmpty();
+    }
+
+    @Test
+    void deleteGame_gameNotFound_exception() {
+        //Give
+        Game game = new Game(GAME_ID,null,null,null,
+                null,null);
+
+        //When + Then
+        Assertions.assertThatThrownBy(() -> inMemoryGameStorage.deleteGame(game.getGameId()))
+                .isInstanceOf(InvalidGameStorageRequestException.class);
     }
 
     @Test
