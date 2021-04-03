@@ -24,16 +24,14 @@ public class GameController {
                 .map(GameController::convertToPlayerResponse)
                 .collect(Collectors.toList());
         //todo: make join URL
-        GameResponse gameResponse = new GameResponse(game.getGameId(), players, "gameId");
-        return gameResponse;
+        return new GameResponse(game.getGameId(), players, "gameId");
     }
 
     @PostMapping("games/{gameId}/players")
     public PlayerResponse addPlayerToGame(@RequestParam("playerName") String playerName,
                                           @PathVariable("gameId") String gameId) {
         Player player = gameService.addPlayerToGame(gameId, playerName);
-        PlayerResponse playerResponse = convertToPlayerResponse(player);
-        return playerResponse;
+        return convertToPlayerResponse(player);
     }
 
     @DeleteMapping("games/{gameId}/players/{playerId}")
@@ -51,7 +49,6 @@ public class GameController {
     static PlayerResponse convertToPlayerResponse(Player player) {
         String playerId = player.getPlayerId();
         String playerName = player.getName();
-        PlayerResponse playerResponse = new PlayerResponse(playerId, playerName, true);
-        return playerResponse;
+        return new PlayerResponse(playerId, playerName, true);
     }
 }

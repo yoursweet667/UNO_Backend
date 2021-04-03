@@ -3,6 +3,8 @@ package ru.yoursweet667.uno.service.game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
+import ru.yoursweet667.uno.service.exception.GameNotFoundException;
+import ru.yoursweet667.uno.service.exception.PlayerExistException;
 import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.Event;
 
@@ -24,7 +26,6 @@ public class GameServiceImpl implements GameService {
         List<Event> events = new LinkedList<>();
         Game game = new Game(gameId, players, gameState, deck, cardsInTheGame, events);
         storage.createGame(game);
-        //todo: Drop the error if game exist
         return game;
     }
 
@@ -33,14 +34,23 @@ public class GameServiceImpl implements GameService {
         List<Card> playerCards = new ArrayList<>();
         Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
         getGameFromOptional(gameId).getPlayers().put(player.getPlayerId(), player);
-        //todo: Drop the error if game or player doesn't exist
+
+        if(storage.getGame(gameId).isEmpty()) {
+            throw new GameNotFoundException("Game with id:" + gameId + "not found");
+        } else if (storage.getGame(gameId).get().getPlayers().containsValue(player)) {
+            throw new PlayerExistException("Player:" + playerName + "already exist");
+        } else
         return player;
     }
 
     @Override
     public void removePlayerFromGame(String gameId, String playerId) {
+        if(storage.getGame(gameId).isEmpty()) {
+            throw new GameNotFoundException("Game with id:" + gameId + "not found");
+        } else if (!storage.getGame(gameId).get().getPlayers().containsKey(playerId)) {
+            throw new PlayerExistException("Player:" + playerId + "not found");
+        } else
         getGameFromOptional(gameId).getPlayers().remove(playerId);
-        //todo: Drop the error if game or player doesn't exist
     }
 
     @Override
@@ -50,6 +60,6 @@ public class GameServiceImpl implements GameService {
 
     private Game getGameFromOptional(String gameId) {
         return storage.getGame(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+                .orElseThrow(() -> new GameNotFoundException("Game with id:" + gameId + "not found"));
     }
 }
