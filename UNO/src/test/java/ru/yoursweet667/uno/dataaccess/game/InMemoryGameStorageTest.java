@@ -47,11 +47,9 @@ public class InMemoryGameStorageTest {
         //Given
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
-
-        //When
         inMemoryGameStorage.createGame(game);
 
-        //Then
+        //When + Then
         Assertions.assertThatThrownBy(() -> inMemoryGameStorage.createGame(game))
                 .isInstanceOf(InvalidGameStorageRequestException.class);
     }
@@ -61,14 +59,14 @@ public class InMemoryGameStorageTest {
         //Give
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
+        inMemoryGameStorage.createGame(game);
 
         //When
-        inMemoryGameStorage.createGame(game);
         inMemoryGameStorage.updateGame(game);
 
         //Then
         Optional<Game> returnedGame = inMemoryGameStorage.getGame(GAME_ID);
-        assertThat(returnedGame.isPresent());
+        assertThat(returnedGame).isPresent();
         assertThat(returnedGame).isPresent();
         assertThat(returnedGame.get()).isEqualTo(game);
     }
@@ -89,9 +87,9 @@ public class InMemoryGameStorageTest {
         //Give
         Game game = new Game(GAME_ID,null,null,null,
                 null,null);
+        inMemoryGameStorage.createGame(game);
 
         //When
-        inMemoryGameStorage.createGame(game);
         inMemoryGameStorage.deleteGame(game.getGameId());
 
         //Then

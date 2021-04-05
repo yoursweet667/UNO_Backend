@@ -118,9 +118,6 @@ public class GameServiceImplTest {
     void removePlayerFromGame_playerNotFound_exception() {
         //Given
         Map<String, Player> players = new HashMap<>();
-        Player player = new Player("somePlayerId", null, null);
-        players.put(player.getPlayerId(), player);
-
         Game game = new Game(GAME_ID, players, null,
                 null, null, null);
 
@@ -134,13 +131,6 @@ public class GameServiceImplTest {
     @Test
     void removePlayerFromGame_gameNotFound_exception() {
         //Given
-        Map<String, Player> players = new HashMap<>();
-        Player player = new Player(PLAYER_ID, null, null);
-        players.put(player.getPlayerId(), player);
-
-        Game game = new Game(GAME_ID, players, null,
-                null, null, null);
-
         Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.empty());
 
         //When + Then

@@ -34,11 +34,12 @@ public class GameServiceImpl implements GameService {
     public Player addPlayerToGame(String gameId, String playerName) {
         List<Card> playerCards = new ArrayList<>();
         Player player = new Player(UUID.randomUUID().toString(), playerName, playerCards);
+        Map<String, Player> players = getGameFromOptional(gameId).getPlayers();
 
-        if (getGameFromOptional(gameId).getPlayers().containsValue(player)) {
+        if (players.containsValue(player)) {
             throw new PlayerAlreadyExistsException("Player: " + playerName + "already exist");
         } else
-        getGameFromOptional(gameId).getPlayers().put(player.getPlayerId(), player);
+            players.put(player.getPlayerId(), player);
         return player;
     }
 
@@ -48,7 +49,7 @@ public class GameServiceImpl implements GameService {
         if (!game.getPlayers().containsKey(playerId)) {
             throw new PlayerNotFoundException("Player: " + playerId + "not found");
         } else
-        getGameFromOptional(gameId).getPlayers().remove(playerId);
+            game.getPlayers().remove(playerId);
     }
 
     @Override
