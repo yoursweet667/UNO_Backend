@@ -9,7 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.dataaccess.game.exception.InvalidGameStorageRequestException;
 import ru.yoursweet667.uno.service.model.Game;
+import ru.yoursweet667.uno.service.model.Player;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,18 +59,27 @@ public class InMemoryGameStorageTest {
     @Test
     void updateGame_putGameInMap() {
         //Give
-        Game game = new Game(GAME_ID,null,null,null,
+        Map<String, Player> players = new HashMap<>();
+        Game game = new Game(GAME_ID, Map.of(),null,null,
                 null,null);
         inMemoryGameStorage.createGame(game);
+        Optional<Game> gameBeforeChanges = inMemoryGameStorage.getGame(GAME_ID);
+        Player player = new Player("playerId", null, null);
+
+        Game gameWithChanges = new Game(GAME_ID, players,null,null,
+                null,null);
+        gameWithChanges.getPlayers().put(player.getPlayerId(), player);
 
         //When
-        inMemoryGameStorage.updateGame(game);
+        inMemoryGameStorage.updateGame(gameWithChanges);
 
         //Then
-        Optional<Game> returnedGame = inMemoryGameStorage.getGame(GAME_ID);
-        assertThat(returnedGame).isPresent();
-        assertThat(returnedGame).isPresent();
-        assertThat(returnedGame.get()).isEqualTo(game);
+        Optional<Game> returnedGameWihChanges = inMemoryGameStorage.getGame(GAME_ID);
+        assertThat(gameBeforeChanges).isPresent();
+        assertThat(gameBeforeChanges.get()).isNotEqualTo(gameWithChanges);
+        assertThat(returnedGameWihChanges).isPresent();
+        assertThat(returnedGameWihChanges).isPresent();
+        assertThat(returnedGameWihChanges.get().getGameId()).isEqualTo(game.getGameId());
     }
 
     @Test

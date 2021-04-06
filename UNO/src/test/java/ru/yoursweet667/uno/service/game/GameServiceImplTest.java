@@ -9,10 +9,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ru.yoursweet667.uno.dataaccess.game.GameStorage;
 import ru.yoursweet667.uno.service.exception.GameNotFoundException;
+import ru.yoursweet667.uno.service.exception.PlayerAlreadyExistsException;
 import ru.yoursweet667.uno.service.exception.PlayerNotFoundException;
 import ru.yoursweet667.uno.service.model.Game;
 import ru.yoursweet667.uno.service.model.GameState;
 import ru.yoursweet667.uno.service.model.Player;
+import static org.mockito.Matchers.any;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,18 +71,20 @@ public class GameServiceImplTest {
         assertThat(game.getPlayers().get(player.getPlayerId())).isEqualTo(player);
     }
 
-    //todo: fix this test 
+
     @Test
-    void addPlayerToGame_playerNotFound_exception() {
+    void addPlayerToGame_playerAlreadyExists_exception() {
         //Given
-        Player player = new Player("somePlayerId", "playerName", null);
-        Game game = new Game(GAME_ID, Map.of(player.getPlayerId(), player), null,
+        Map<String, Player> playersMock = Mockito.mock(Map.class);
+
+        Game game = new Game(GAME_ID, playersMock, null,
                 null, null, null);
         Mockito.when(storage.getGame(GAME_ID)).thenReturn(Optional.of(game));
+        Mockito.when(playersMock.containsValue(any())).thenReturn(true);
 
         //When + Then
         Assertions.assertThatThrownBy(() -> gameServiceImpl.addPlayerToGame(GAME_ID, "playerName"))
-                .isInstanceOf(PlayerNotFoundException.class);
+                .isInstanceOf(PlayerAlreadyExistsException.class);
     }
 
     @Test
