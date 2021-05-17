@@ -219,18 +219,17 @@ components:
       example:
         {
           "playerId": "playerId",
-          "eventType": "eventType"
+          "commandType": "PLAY_CARD"
         }
       required: 
       - playerId
-      - eventType
+      - commandType
       properties:
         playerId:
           type: string
           description: player id
-        eventType:
-          type: string
-          description: type of event
+        commandType:
+          $ref: '#/components/schemas/EventType'
         card:
           $ref: '#/components/schemas/Card'
     Settings:
