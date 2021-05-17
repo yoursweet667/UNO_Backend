@@ -399,7 +399,7 @@ components:
       type: string
       enum: 
         - PLAY_CARD
-        - TAKE_CARDS
+        - TAKE_CARD
     EventType:
       type: string
       enum:
