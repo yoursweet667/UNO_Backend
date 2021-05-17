@@ -229,7 +229,7 @@ components:
           type: string
           description: player id
         commandType:
-          $ref: '#/components/schemas/EventType'
+          $ref: '#/components/schemas/CommandType'
         card:
           $ref: '#/components/schemas/Card'
     Settings:
@@ -395,6 +395,11 @@ components:
         - SKIP
         - CHANGE_COLOUR
         - REVERSE_DIRECTION
+    CommandType:
+      type: string
+      enum: 
+        - PLAY_CARD
+        - TAKE_CARDS
     EventType:
       type: string
       enum:
