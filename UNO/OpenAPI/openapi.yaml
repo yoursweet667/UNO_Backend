@@ -218,19 +218,19 @@ components:
       type: object
       example:
         {
-          "gameId": "gameId",
-          "playerId": "playerId"
+          "playerId": "playerId",
+          "eventType": "eventType"
         }
       required: 
-      - gameId
       - playerId
+      - eventType
       properties:
-        gameId:
-          type: string
-          description: game id
         playerId:
           type: string
           description: player id
+        eventType:
+          type: string
+          description: type of event
         card:
           $ref: '#/components/schemas/Card'
     Settings:
