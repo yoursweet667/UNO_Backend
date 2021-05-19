@@ -15,13 +15,6 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping("games/{gameId}/events")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createEvent(@PathVariable("gameId") String gameId, @RequestBody Event event){
-
-        eventService.createEvent(gameId, event);
-    }
-
-    @PostMapping("games/{gameId}/events")
     public void getEvents(@PathVariable("gameId") String gameId, @RequestParam String playerId,
                           @RequestParam Integer fromEventId){
 

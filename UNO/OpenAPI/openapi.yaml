@@ -146,6 +146,12 @@ paths:
           required: true
           description: Id of the game
         - in: query
+          name: playerId
+          schema:
+            type: string
+          required: true
+          description: Id of the player who wants to get events
+        - in: query
           name: fromEventId
           schema:
             type: number
