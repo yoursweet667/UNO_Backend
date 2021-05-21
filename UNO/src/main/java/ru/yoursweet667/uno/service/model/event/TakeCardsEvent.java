@@ -18,8 +18,8 @@ public class TakeCardsEvent extends Event {
      */
     private final Player player;
 
-    public TakeCardsEvent(int eventId, EventType type, List<Card> cards, Player player) {
-        super(eventId, type);
+    public TakeCardsEvent(int eventId, List<Card> cards, Player player) {
+        super(eventId, EventType.TAKE_CARDS);
         this.cards = cards;
         this.player = player;
     }
