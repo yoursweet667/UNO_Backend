@@ -10,7 +10,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("games/{gameId}/events")
+    @PostMapping("games/{gameId}/events")
     public void getEvents(@PathVariable("gameId") String gameId, @RequestParam String playerId,
                           @RequestParam Integer fromEventId){
 
