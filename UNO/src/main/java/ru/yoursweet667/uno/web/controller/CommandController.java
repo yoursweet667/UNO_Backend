@@ -11,8 +11,7 @@ import ru.yoursweet667.uno.service.model.Card;
 public class CommandController {
 
     @PostMapping("games/{gameId}/commands")
-    public void sendCommand(@PathVariable("gameId") String gameId, @RequestParam String playerId,
-                             @RequestParam CommandType commandType, @RequestParam Card card) {
+    public void sendCommand(@PathVariable("gameId") String gameId) {
 
     }
 }
