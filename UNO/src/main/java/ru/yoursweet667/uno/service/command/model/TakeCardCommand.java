@@ -1,5 +1,7 @@
 package ru.yoursweet667.uno.service.command.model;
 
+import java.util.Objects;
+
 public class TakeCardCommand {
 
     private final String playerId;
@@ -17,5 +19,19 @@ public class TakeCardCommand {
 
     public CommandType getCommandType() {
         return commandType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TakeCardCommand that = (TakeCardCommand) o;
+        return Objects.equals(playerId, that.playerId) &&
+                commandType == that.commandType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerId, commandType);
     }
 }
