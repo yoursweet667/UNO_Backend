@@ -39,13 +39,6 @@ public class GameController {
         gameService.removePlayerFromGame(gameId, playerId);
     }
 
-    @GetMapping("games/{gameId}/events")
-    public Events getEvents(@PathVariable("gameId") String gameId) {
-
-        return new Events(List.of());
-    }
-
-
     static PlayerResponse convertToPlayerResponse(Player player) {
         String playerId = player.getPlayerId();
         String playerName = player.getName();

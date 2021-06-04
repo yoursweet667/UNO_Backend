@@ -1,0 +1,422 @@
+openapi: 3.0.1
+info:
+  title: Uno Serer API
+  contact:
+    name: ???
+    url: https://todo
+  version: 1.0.0
+servers:
+- url: /
+- url: http://todo
+paths:
+  /settings:
+    get:
+      tags:
+      - Client settings
+      operationId: GetClientSettings
+      description: Get client settings
+      responses:
+        200:
+          description: Object with the client's settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games:
+    post:
+      tags:
+      - Games
+      operationId: CreateGame
+      description: Create game
+      responses:
+        200:
+          description: Created Game
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        400:
+          description: Bad reqest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'   
+  /games/{gameId}/players:
+    post:
+      tags:
+      - Games
+      operationId: JoinGame
+      description: Add player 
+      parameters:
+        - in: path
+          name: gameId
+          schema:
+            type: string
+          required: true
+          description: Id of the game
+        - in: query
+          name: playerName
+          schema:
+            type: string
+          required: true
+          description: Name of the player  
+      responses:
+        200:
+          description: Return Game
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Game"
+        400:
+          description: Bad reqest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameNotFound'        
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /games/{gameId}/players/{playerId}:
+    delete:
+      tags:
+      - Games
+      operationId: DeletePlayer
+      description: Delete player
+      parameters: 
+        - in: path
+          name: gameId
+          schema:
+            type: string
+          required: true
+          description: Id of the game
+        - in: path
+          name: playerId
+          schema:
+            type: string
+          required: true
+          description: Id of the player  
+      responses:
+        204:
+          description: Deleted Player
+        404:
+          description: Player or game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameNotFound' 
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /games/{gameId}/events:
+    get:
+      tags:
+      - Events
+      operationId: GetEvents
+      description: Get Events
+      parameters: 
+        - in: path
+          name: gameId
+          schema:
+            type: string
+          required: true
+          description: Id of the game
+        - in: query
+          name: playerId
+          schema:
+            type: string
+          required: true
+          description: Id of the player who wants to get events
+        - in: query
+          name: fromEventId
+          schema:
+            type: number
+          required: false
+          description: Id of the first event to get
+      responses:
+        200:
+          description: Events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Events"
+        204:
+          description: No event
+        404:
+          description: Player or game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameNotFound' 
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'    
+  /games/{gameId}/commands:
+    post:
+      tags:
+      - Commands
+      operationId: SendCommand
+      description: Send command
+      parameters:
+      - in: path
+        name: gameId
+        required: true
+        schema:
+          type: string
+        description: Id of the game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Commands"  
+      responses:
+        204:
+          description: No content
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        404:
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameNotFound"        
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'            
+
+components:
+  schemas:
+    Commands:
+      type: object
+      example:
+        {
+          "playerId": "playerId",
+          "commandType": "PLAY_CARD"
+        }
+      required: 
+      - playerId
+      - commandType
+      properties:
+        playerId:
+          type: string
+          description: player id
+        commandType:
+          $ref: '#/components/schemas/CommandType'
+        card:
+          $ref: '#/components/schemas/Card'
+    Settings:
+      type: object
+      example: { eventPollIntervalMillis: 500 }
+      required:
+      - eventPollIntervalMillis
+      properties:
+        eventPollIntervalMillis:
+          type: number
+          format: integer32
+          description: How often client should poll server for new events
+    Error:
+      type: object
+      example: { errorMessage: something went wrong }
+      required:
+      - errorMessage
+      properties:
+        errorMessage:
+          type: string
+    GameNotFound:
+      type: object
+      example: { errorMessage: player or game not found }
+      required:
+      - errorMessage
+      properties:
+        errorMessage:
+          type: string          
+    Game:
+      type: object
+      example: 
+        {
+          "joinUrl": "http://host.com/join?gameid=example_game_id",
+          "players": [
+            {
+              "name": "Bob",
+              "playerId": "bobPlayerId"
+            },
+            {
+              "name": "Alice",
+              "playerId": "alicePlayerId"
+            }
+          ]
+        }
+      required:
+      - players
+      - joinUrl
+      - gameId
+      properties:
+        gameId:
+          type: string
+          description: game id
+        joinUrl:
+          type: string
+          description: URL to join the game
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+    Player:
+      type: object
+      example:
+        {
+          "name": "Bob",
+          "playerId": "playerId"
+        }
+      required: 
+      - name
+      - playerId
+      properties:
+        name:
+          type: string
+          description: name of player
+        playerId:
+          type: string
+          description: player Id
+    Card:
+      type: object
+      example:
+        {
+          "type": "NUMBER",
+          "number": "5",
+          "colour": "YELLOW"
+        }
+      required:
+      - type
+      - colour
+      properties:
+        type:
+          $ref: '#/components/schemas/CardType'
+        colour:
+          $ref: '#/components/schemas/Color'
+        number:
+          type: number
+          description: number of card (from 0 to 9)
+    Event:
+      type: object
+      example:
+        {  
+          "eventId": 3,
+          "type": "PLAYER_JOINED_THE_GAME",
+          "sourcePlayerId": "player id"
+        }
+      required: 
+      - eventId
+      - type
+      properties:
+        eventId:
+          type: number
+          description: id of event
+        type:
+          $ref: '#/components/schemas/EventType'
+        sourcePlayerId:
+          type: string
+          description: source player id
+        targetPlayerId:
+          type: string
+          description: target player id
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+          description: array of cards
+    Events:
+      type: object
+      example:
+        {
+          "events": [
+            {
+              "eventId": 1,
+              "type": "PLAYER_PLAYED_A_CARD",
+              "sourcePlayerId": "player id1",
+              "targetPlayerId": "player id2",
+              "card": {
+                "type": "NUMBER",
+                "number": "5",
+                "colour": "YELLOW"
+              }
+            }
+          ]
+        }
+      required: 
+      - events
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+          description: list of events
+    Color:
+      type: string
+      enum:
+        - RED
+        - YELLOW
+        - GREEN
+        - BLUE
+    CardType:
+      type: string
+      enum: 
+        - NUMBER
+        - PLUS_4
+        - PLUS_2
+        - SKIP
+        - CHANGE_COLOUR
+        - REVERSE_DIRECTION
+    CommandType:
+      type: string
+      enum: 
+        - PLAY_CARD
+        - TAKE_CARD
+    EventType:
+      type: string
+      enum:
+        - PLAY_CARD
+        - TURN_CARD_OVER
+        - TAKE_CARDS
+        - JOIN_GAME
+        - LEAVE_GAME
+        - START_GAME
+        - END_GAME
+        - START_TURN
+        - END_TURN
+        - SKIP_TURN
+  
