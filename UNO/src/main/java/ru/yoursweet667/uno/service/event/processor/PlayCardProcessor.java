@@ -19,6 +19,5 @@ public class PlayCardProcessor extends BaseEventProcessor<PlayCardEvent> {
         Player playerInTheGame = game.getPlayers().get(sourcePlayerId);
         playerInTheGame.getCards().remove(card);
         game.getCardsInTheGame().add(card);
-
     }
 }

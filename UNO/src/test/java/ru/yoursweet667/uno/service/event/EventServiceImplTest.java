@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import ru.yoursweet667.uno.service.event.processor.EventProcessor;
 import ru.yoursweet667.uno.service.event.validator.EventValidator;
+import ru.yoursweet667.uno.service.exception.GameNotFoundException;
 import ru.yoursweet667.uno.service.game.GameService;
 import ru.yoursweet667.uno.service.model.*;
 import ru.yoursweet667.uno.service.model.event.Event;
@@ -74,7 +75,7 @@ public class EventServiceImplTest {
 
         //When+Then
         Assertions.assertThatThrownBy(() -> eventService.createEvent(GAME_ID, event))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(GameNotFoundException.class);
     }
 
     @Test
@@ -108,7 +109,7 @@ public class EventServiceImplTest {
 
         //Then
         Assertions.assertThatThrownBy(() -> eventService.getEvents(GAME_ID, PLAYER_ID, fromEventId))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(GameNotFoundException.class);
 
     }
 
