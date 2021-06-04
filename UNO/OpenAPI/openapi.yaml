@@ -268,7 +268,7 @@ components:
       type: object
       example: 
         {
-          "gameId": "someGameId",
+          "joinUrl": "http://host.com/join?gameid=example_game_id",
           "players": [
             {
               "name": "Bob",
@@ -288,6 +288,9 @@ components:
         gameId:
           type: string
           description: game id
+        joinUrl:
+          type: string
+          description: URL to join the game
         players:
           type: array
           items:
